@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOVE — The IHS Change Standard</title>
+<style>
+  :root {
+    --navy: #1C2B4A;
+    --teal: #00697A;
+    --teal-light: #00869A;
+    --gold: #C8952A;
+    --gold-light: #F0B430;
+    --off-white: #F7F8FA;
+    --white: #FFFFFF;
+    --gray-100: #F0F2F5;
+    --gray-200: #E1E5EC;
+    --gray-400: #9AA3B2;
+    --gray-700: #3D4A5C;
+    --text: #1C2B4A;
+    --m-color: #1C2B4A;
+    --o-color: #00697A;
+    --v-color: #C8952A;
+    --e-color: #2D6A4F;
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--off-white);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--navy);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 60px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+  }
+  .nav-logo {
+    width: 32px; height: 32px;
+    background: var(--gold);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 0.85rem; color: white; letter-spacing: -1px;
+  }
+  .nav-links { display: flex; gap: 4px; }
+  .nav-links a {
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  .nav-links a:hover { color: white; background: rgba(255,255,255,0.1); }
+  .nav-links a.active { color: white; background: rgba(255,255,255,0.15); }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #2D4A72 60%, #1C5A6A 100%);
+    padding: 80px 40px 70px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    background: rgba(200,149,42,0.2);
+    color: var(--gold-light);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(200,149,42,0.3);
+  }
+  .hero h1 {
+    color: white;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .hero h1 span { color: var(--gold-light); }
+  .hero-sub {
+    color: rgba(255,255,255,0.75);
+    font-size: 1.15rem;
+    max-width: 600px;
+    margin: 0 auto 40px;
+  }
+  .hero-formula {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 16px 28px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .formula-item {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.9rem; color: rgba(255,255,255,0.85);
+  }
+  .formula-letter {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 1.1rem; color: white;
+    flex-shrink: 0;
+  }
+  .fl-m { background: var(--m-color); }
+  .fl-o { background: var(--o-color); }
+  .fl-v { background: var(--v-color); }
+  .fl-e { background: var(--e-color); }
+  .formula-plus { color: rgba(255,255,255,0.4); font-size: 1.2rem; font-weight: 300; }
+  .formula-eq { color: var(--gold-light); font-size: 1.2rem; font-weight: 700; }
+
+  /* SECTION WRAPPER */
+  .section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 64px 24px;
+  }
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  .section-letter-badge {
+    width: 56px; height: 56px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 1.8rem; color: white;
+    flex-shrink: 0;
+  }
+  .section-header-text h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: var(--navy);
+  }
+  .section-header-text .section-tagline {
+    font-size: 1rem;
+    color: var(--gray-400);
+    font-style: italic;
+    margin-top: 2px;
+  }
+
+  /* DIVIDER */
+  .section-divider {
+    background: var(--gray-200);
+    height: 1px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* OVERVIEW CARDS */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  .move-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 28px;
+    border: 1px solid var(--gray-200);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .move-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  .card-letter {
+    width: 48px; height: 48px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 1.5rem; color: white;
+    margin-bottom: 16px;
+  }
+  .move-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+  .move-card .card-sub {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gray-400);
+    margin-bottom: 10px;
+  }
+  .move-card p { font-size: 0.9rem; color: var(--gray-700); line-height: 1.55; }
+
+  /* PLAYS */
+  .plays-list { display: flex; flex-direction: column; gap: 16px; }
+  .play-item {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    border: 1px solid var(--gray-200);
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+  }
+  .play-num {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.85rem; color: white;
+    flex-shrink: 0;
+  }
+  .play-item h4 { font-size: 0.95rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .play-item p { font-size: 0.875rem; color: var(--gray-700); line-height: 1.55; }
+
+  /* GATE CHECKS */
+  .gates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  .gate-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 24px;
+    border: 1px solid var(--gray-200);
+  }
+  .gate-num {
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    width: 28px; height: 28px;
+    background: var(--navy);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 50%;
+    margin-bottom: 12px;
+  }
+  .gate-card h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+  .gate-card .standard-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 4px;
+  }
+  .gate-card p { font-size: 0.85rem; color: var(--gray-700); line-height: 1.5; }
+
+  /* ALTITUDE TABLE */
+  .altitude-table { width: 100%; border-collapse: collapse; background: white; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--gray-200); }
+  .altitude-table th {
+    background: var(--navy);
+    color: white;
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .altitude-table td {
+    padding: 14px 16px;
+    font-size: 0.875rem;
+    color: var(--gray-700);
+    border-bottom: 1px solid var(--gray-100);
+    vertical-align: top;
+  }
+  .altitude-table tr:last-child td { border-bottom: none; }
+  .altitude-table tr:hover td { background: var(--gray-100); }
+  .level-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: var(--gray-100);
+    color: var(--navy);
+    white-space: nowrap;
+  }
+
+  /* ROADMAP FORM */
+  .roadmap-form {
+    background: white;
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-200);
+    overflow: hidden;
+  }
+  .form-section-header {
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--gray-200);
+  }
+  .form-section-letter {
+    width: 32px; height: 32px;
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 1rem; color: white;
+    flex-shrink: 0;
+  }
+  .form-section-header h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .form-section-header span {
+    font-size: 0.8rem;
+    color: var(--gray-400);
+    font-style: italic;
+  }
+  .form-body { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+  .form-field label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray-700);
+    margin-bottom: 6px;
+  }
+  .form-field input,
+  .form-field textarea {
+    width: 100%;
+    border: 1px solid var(--gray-200);
+    border-radius: 7px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    color: var(--text);
+    background: var(--gray-100);
+    transition: border-color 0.15s, background 0.15s;
+    resize: vertical;
+  }
+  .form-field input:focus,
+  .form-field textarea:focus {
+    outline: none;
+    border-color: var(--teal);
+    background: white;
+  }
+  .form-field textarea { min-height: 80px; }
+  .form-divider { height: 1px; background: var(--gray-200); }
+  .form-actions {
+    padding: 20px 24px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    background: var(--gray-100);
+    border-top: 1px solid var(--gray-200);
+  }
+  .btn-primary {
+    background: var(--teal);
+    color: white;
+    border: none;
+    border-radius: 7px;
+    padding: 10px 24px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s;
+  }
+  .btn-primary:hover { background: var(--teal-light); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--gray-700);
+    border: 1px solid var(--gray-200);
+    border-radius: 7px;
+    padding: 10px 24px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .btn-secondary:hover { border-color: var(--navy); color: var(--navy); background: white; }
+  .form-note { font-size: 0.8rem; color: var(--gray-400); font-style: italic; }
+
+  /* WORKSHEET */
+  .worksheet-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .ws-play {
+    background: white;
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-200);
+    overflow: hidden;
+  }
+  .ws-play-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .ws-play-num {
+    width: 28px; height: 28px;
+    background: var(--m-color);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem; font-weight: 700; color: white;
+    flex-shrink: 0;
+  }
+  .ws-play-header h4 { font-size: 0.95rem; font-weight: 700; color: var(--navy); flex: 1; }
+  .ws-chevron { color: var(--gray-400); font-size: 0.8rem; transition: transform 0.2s; }
+  .ws-play.open .ws-chevron { transform: rotate(180deg); }
+  .ws-play-body {
+    padding: 0 20px 20px;
+    display: none;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .ws-play.open .ws-play-body { display: flex; }
+  .ws-play-desc {
+    font-size: 0.875rem;
+    color: var(--gray-700);
+    line-height: 1.55;
+    padding-top: 4px;
+    border-top: 1px solid var(--gray-100);
+    padding-top: 16px;
+  }
+
+  /* MEANING WORKSHEET FIELDS */
+  .meaning-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 700px) { .meaning-grid { grid-template-columns: 1fr; } }
+  .meaning-col {
+    background: var(--gray-100);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .meaning-col label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--m-color);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .meaning-col textarea {
+    width: 100%;
+    border: 1px solid var(--gray-200);
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 0.875rem;
+    font-family: inherit;
+    min-height: 90px;
+    resize: vertical;
+    background: white;
+    color: var(--text);
+  }
+  .meaning-col textarea:focus { outline: none; border-color: var(--m-color); }
+
+  /* LOSS TABLE */
+  .loss-table { width: 100%; border-collapse: collapse; }
+  .loss-table th {
+    background: var(--gray-100);
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray-700);
+    border-bottom: 2px solid var(--gray-200);
+  }
+  .loss-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--gray-200);
+  }
+  .loss-table td input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-size: 0.875rem;
+    font-family: inherit;
+    color: var(--text);
+  }
+  .loss-table td input:focus { outline: none; }
+
+  /* CALLOUT */
+  .callout {
+    background: linear-gradient(135deg, rgba(0,105,122,0.06), rgba(0,105,122,0.02));
+    border: 1px solid rgba(0,105,122,0.2);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+  }
+  .callout-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+  .callout p { font-size: 0.875rem; color: var(--gray-700); line-height: 1.6; }
+  .callout strong { color: var(--navy); }
+
+  /* FOOTER */
+  footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 28px 24px;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+  }
+  footer strong { color: rgba(255,255,255,0.8); }
+
+  /* COLOR UTILS */
+  .bg-m { background: var(--m-color); }
+  .bg-o { background: var(--o-color); }
+  .bg-v { background: var(--v-color); }
+  .bg-e { background: var(--e-color); }
+  .text-m { color: var(--m-color); }
+  .text-o { color: var(--o-color); }
+  .text-v { color: var(--v-color); }
+  .text-e { color: var(--e-color); }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 24px;
+    background: var(--gray-200);
+    padding: 4px;
+    border-radius: 10px;
+    width: fit-content;
+  }
+  .tab-btn {
+    padding: 8px 20px;
+    border-radius: 7px;
+    border: none;
+    background: transparent;
+    color: var(--gray-700);
+    font-size: 0.875rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .tab-btn.active {
+    background: white;
+    color: var(--navy);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* PILL BADGE */
+  .pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .pill-new { background: rgba(200,149,42,0.15); color: var(--gold); }
+  .pill-draft { background: rgba(0,105,122,0.1); color: var(--teal); }
+
+  /* SMOOTH SCROLL */
+  html { scroll-behavior: smooth; }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 50px 20px 50px; }
+    .section { padding: 40px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">
+    <div class="nav-logo">MOVE</div>
+    IHS Change Standard
+  </a>
+  <div class="nav-links">
+    <a href="#overview" class="nav-link">Overview</a>
+    <a href="#elements" class="nav-link">The Four Elements</a>
+    <a href="#gates" class="nav-link">Stage Gates</a>
+    <a href="#altitude" class="nav-link">Altitude</a>
+    <a href="#roadmap" class="nav-link">Roadmap</a>
+    <a href="#worksheet" class="nav-link">Worksheet</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Version 1 · IHS Internal</div>
+  <h1>The IHS <span>Change Standard</span></h1>
+  <p class="hero-sub">A unified framework for leading change at every altitude of the organization — with discipline, transparency, and ownership at every level.</p>
+  <div class="hero-formula">
+    <div class="formula-item">
+      <div class="formula-letter fl-m">M</div>
+      Meaning
+    </div>
+    <span class="formula-plus">+</span>
+    <div class="formula-item">
+      <div class="formula-letter fl-o">O</div>
+      Ownership
+    </div>
+    <span class="formula-plus">+</span>
+    <div class="formula-item">
+      <div class="formula-letter fl-v">V</div>
+      Velocity
+    </div>
+    <span class="formula-plus">+</span>
+    <div class="formula-item">
+      <div class="formula-letter fl-e">E</div>
+      Establishment
+    </div>
+    <span class="formula-eq">=</span>
+    <div class="formula-item" style="color:white; font-weight:700;">ONE IHS</div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<div id="overview">
+<div class="section">
+  <div class="section-header">
+    <div class="section-header-text">
+      <h2>What is MOVE?</h2>
+      <div class="section-tagline">Four elements. Each owned differently at each altitude of the organization.</div>
+    </div>
+  </div>
+  <div class="overview-grid">
+    <div class="move-card">
+      <div class="card-letter bg-m">M</div>
+      <div class="card-sub">What Is Happening</div>
+      <h3>Meaning</h3>
+      <p>Define three essential components: what we are changing, what will be lost, and what we will gain. Loss cannot be buried — it must be named explicitly before the change advances.</p>
+    </div>
+    <div class="move-card">
+      <div class="card-letter bg-o">O</div>
+      <div class="card-sub">Who Will Make It Happen</div>
+      <h3>Ownership</h3>
+      <p>Identify who is responsible at each altitude for turning Meaning into reality. Ownership is altitude-based, not a RACI. Every level has a different, non-delegable job in the change.</p>
+    </div>
+    <div class="move-card">
+      <div class="card-letter bg-v">V</div>
+      <div class="card-sub">How Will It Happen</div>
+      <h3>Velocity</h3>
+      <p>Define end goals and reverse-engineer the milestones, benchmarks, messaging, tasks, and support required. Velocity is coaching and obstacle removal — not just a project timeline.</p>
+    </div>
+    <div class="move-card">
+      <div class="card-letter bg-e">E</div>
+      <div class="card-sub">How We Know It Happened</div>
+      <h3>Establishment</h3>
+      <p>Define how the change is verified and solidified as the new standard. Before launch, know what metric, document, and performance mechanism locks the change in place.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">Design Principle</div>
+    <p>No altitude can do another's work — and none of the work disappears when it is skipped. <strong>It surfaces later, at a higher cost.</strong> MOVE is designed for leaders who will actually use it, at every level of the organization, not just enterprise-wide change.</p>
+  </div>
+</div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- FOUR ELEMENTS -->
+<div id="elements">
+<div class="section">
+  <div class="section-header">
+    <div class="section-header-text">
+      <h2>The Four Elements</h2>
+      <div class="section-tagline">Plays, standards, and what the Change Champion owns at each stage</div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this, 'tab-m')">M — Meaning</button>
+    <button class="tab-btn" onclick="switchTab(this, 'tab-o')">O — Ownership</button>
+    <button class="tab-btn" onclick="switchTab(this, 'tab-v')">V — Velocity</button>
+    <button class="tab-btn" onclick="switchTab(this, 'tab-e')">E — Establishment</button>
+  </div>
+
+  <!-- M -->
+  <div id="tab-m" class="tab-panel active">
+    <div class="section-header" style="margin-bottom:24px;">
+      <div class="section-letter-badge bg-m">M</div>
+      <div class="section-header-text">
+        <h2 style="color:var(--m-color)">Meaning</h2>
+        <div class="section-tagline">What Is Happening — owned by the Change Champion</div>
+      </div>
+    </div>
+    <div class="callout" style="margin-bottom:24px;">
+      <div class="callout-title">The Standard</div>
+      <p>Write <strong>all three components</strong>. All of them. Not just the first one. <strong>What is changing. What it will cost (loss). What are the possibilities.</strong> The play is not complete until all three are defined.</p>
+    </div>
+    <div class="plays-list">
+      <div class="play-item">
+        <div class="play-num bg-m">1</div>
+        <div>
+          <h4>Meaning Construction / Alignment</h4>
+          <p>The Change Champion defines what needs to change, an understanding of what will be lost and who will pay the cost, and the perceived benefits. This can be collaborative or owned initially by the CC alone — but the play is not complete until all three components are defined. This must also be accompanied by defining Establishment (what will be measured).</p>
+        </div>
+      </div>
+      <div class="play-item">
+        <div class="play-num bg-m">2</div>
+        <div>
+          <h4>The Loss Investigation Loop</h4>
+          <p>Before any further step, consult at least two individuals who will "pay the cost." Name them, then capture the additional losses they surface so they can be folded into the Meaning without changing its direction. Silence on a changed fact is spin.</p>
+        </div>
+      </div>
+      <div class="play-item">
+        <div class="play-num bg-m">3</div>
+        <div>
+          <h4>Meaning Empathetic Evaluation</h4>
+          <p>Step into the paying individual's perspective. Dissect the three-part Meaning at each level — their loss, their gains, the impact on daily work. This is an empathetic exercise, not a checkbox.</p>
+        </div>
+      </div>
+      <div class="play-item">
+        <div class="play-num bg-m">4</div>
+        <div>
+          <h4>Evolving Meaning</h4>
+          <p>Accept that facts may require Meaning to be updated. Log what changed, when, and how you communicated it explicitly. All stakeholders align — silence on a changed fact is not acceptable.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- O -->
+  <div id="tab-o" class="tab-panel">
+    <div class="section-header" style="margin-bottom:24px;">
+      <div class="section-letter-badge bg-o">O</div>
+      <div class="section-header-text">
+        <h2 style="color:var(--o-color)">Ownership</h2>
+        <div class="section-tagline">Who Will Make It Happen — owned by the Change Champion</div>
+      </div>
+    </div>
+    <div class="callout" style="margin-bottom:24px;">
+      <div class="callout-title">The Standard</div>
+      <p>Identify who is responsible for turning Meaning into reality. <strong>Ownership is altitude-based — not a RACI.</strong> Every level has a different job. Selective translation rather than holistic adoption is failure.</p>
+    </div>
+    <div class="plays-list">
+      <div class="play-item">
+        <div class="play-num bg-o">1</div>
+        <div>
+          <h4>Ownership Assignment</h4>
+          <p>The Change Champion and key stakeholders identify who will be responsible for messaging, tasks, and results. These will differ with each change and at various levels of the organization.</p>
+        </div>
+      </div>
+      <div class="play-item">
+        <div class="play-num bg-o">2</div>
+        <div>
+          <h4>Ownership Loop</h4>
+          <p>Before any further step, individuals who will own facets of the change are notified and given an opportunity to provide feedback before Velocity is determined. In instances of disconnect or refusal, Meaning is re-evaluated. If an owner cannot fulfill assigned responsibilities, a new owner is selected.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V -->
+  <div id="tab-v" class="tab-panel">
+    <div class="section-header" style="margin-bottom:24px;">
+      <div class="section-letter-badge bg-v">V</div>
+      <div class="section-header-text">
+        <h2 style="color:var(--v-color)">Velocity</h2>
+        <div class="section-tagline">How Will It Happen — owned by the Change Champion</div>
+      </div>
+    </div>
+    <div class="callout" style="margin-bottom:24px;">
+      <div class="callout-title">The Standard</div>
+      <p>Work with Owners of Meaning to ensure all tasks and results have <strong>clear dates, benchmarks, and milestones</strong>. Velocity is the implementation phase — cascading through owners to ultimate end users. <strong>Timelines are necessary but not sufficient. The real work is coaching, obstacle removal, resistance diagnosis, and making trade-offs clear.</strong></p>
+    </div>
+    <div class="plays-list">
+      <div class="play-item">
+        <div class="play-num bg-v">1</div>
+        <div>
+          <h4>Executing the Tasks to Adopt the Change</h4>
+          <p>The Change Champion and owners define timelines with clear milestones (Progress Check-ins) and benchmarks (Standards Check-ins). Owners complete their items in the agreed period at the agreed standards — including communication of Meaning, training requirements for new behaviors, and assessments of change adoption.</p>
+        </div>
+      </div>
+      <div class="play-item">
+        <div class="play-num bg-v">2</div>
+        <div>
+          <h4>Development Needs Assessment</h4>
+          <p>If a development need is identified during Velocity, owners are responsible for escalating to the appropriate resource. Velocity does not pause — development needs are incorporated and addressed in parallel.</p>
+        </div>
+      </div>
+      <div class="play-item">
+        <div class="play-num bg-v">3</div>
+        <div>
+          <h4>Resistance Recognition and Response</h4>
+          <p>Resistance is diagnostic data. The Change Champion identifies patterns, traces resistance to its source (Meaning misalignment, loss not acknowledged, ownership gap), and responds with targeted intervention rather than escalation by default.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- E -->
+  <div id="tab-e" class="tab-panel">
+    <div class="section-header" style="margin-bottom:24px;">
+      <div class="section-letter-badge bg-e">E</div>
+      <div class="section-header-text">
+        <h2 style="color:var(--e-color)">Establishment</h2>
+        <div class="section-tagline">How We Know It Happened — owned by the Change Champion</div>
+      </div>
+    </div>
+    <div class="callout" style="margin-bottom:24px;">
+      <div class="callout-title">The Standard</div>
+      <p>The change has taken place and is now the new normal. <strong>Before launch, know what metric changes, what document or template changes, what performance, comp, or recognition mechanism changes, and what recurring agenda item keeps the change alive.</strong></p>
+    </div>
+    <div class="plays-list">
+      <div class="play-item">
+        <div class="play-num bg-e">1</div>
+        <div>
+          <h4>Audit Against Established Standards</h4>
+          <p>Owners conduct an audit of their results and document current status in comparison to the goals and standards decided during initial change discussions. The new standard is compared against what was established alongside Meaning.</p>
+        </div>
+      </div>
+      <div class="play-item">
+        <div class="play-num bg-e">2</div>
+        <div>
+          <h4>60-Day Establishment Audit</h4>
+          <p>A structured review of every system that still measures, encourages, or rewards the old behavior. Systems that reinforce the past must be identified and updated before Establishment is declared complete.</p>
+        </div>
+      </div>
+      <div class="play-item">
+        <div class="play-num bg-e">3</div>
+        <div>
+          <h4>Internal Language Updated at 90 Days</h4>
+          <p>Scan of official documents, templates, job descriptions, onboarding materials, and recurring meetings. The language of the organization reflects the new standard. New employees have no awareness of the prior reality.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- STAGE GATES -->
+<div id="gates">
+<div class="section">
+  <div class="section-header">
+    <div class="section-header-text">
+      <h2>Stage Gates — Go / No-Go</h2>
+      <div class="section-tagline">Four decisions before cascading. A Change Champion who cascades without meeting these standards is not behind on preparation — they are cascading an incomplete change.</div>
+    </div>
+  </div>
+  <div class="gates-grid">
+    <div class="gate-card">
+      <div class="gate-num">1</div>
+      <h4>Have we defined MEANING?</h4>
+      <div class="standard-label">Standard</div>
+      <p>The three components — What is Changing, What will be Lost, and What are the Possibilities — are clear. Readers will know what problem the change is intended to solve.</p>
+    </div>
+    <div class="gate-card">
+      <div class="gate-num">2</div>
+      <h4>Have we enlisted OWNERSHIP?</h4>
+      <div class="standard-label">Standard</div>
+      <p>All aspects of the change have defined owners who have been enlisted, accepted their responsibilities, and are prepared to execute on necessary actions.</p>
+    </div>
+    <div class="gate-card">
+      <div class="gate-num">3</div>
+      <h4>Have we defined VELOCITY?</h4>
+      <div class="standard-label">Standard</div>
+      <p>A clear roadmap exists with defined milestones, benchmarks, a communication plan, and owned execution paths. The path to adoption is documented and visible to all owners.</p>
+    </div>
+    <div class="gate-card">
+      <div class="gate-num">4</div>
+      <h4>Have we defined ESTABLISHMENT?</h4>
+      <div class="standard-label">Standard</div>
+      <p>The locking mechanisms are identified: which metric changes, which document changes, which performance mechanism changes, and what recurring agenda item keeps the change alive.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ALTITUDE -->
+<div id="altitude">
+<div class="section">
+  <div class="section-header">
+    <div class="section-header-text">
+      <h2>Altitude Architecture</h2>
+      <div class="section-tagline">Enterprise-level change requires all levels. Each has a non-delegable role specific to its function.</div>
+    </div>
+  </div>
+  <table class="altitude-table">
+    <thead>
+      <tr>
+        <th>Level</th>
+        <th>Primary Role in MOVE</th>
+        <th>What Failure Looks Like</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="level-badge">ELT</span></td>
+        <td>Construct Meaning. Determine Ownership. Define Velocity. Install Establishment measures.</td>
+        <td>Cascading a change without all three Meaning components defined.</td>
+      </tr>
+      <tr>
+        <td><span class="level-badge">Senior Leadership</span></td>
+        <td>Understand and amplify Meaning — their belief is the precondition for Brand President belief. Co-Own both Velocity and Establishment.</td>
+        <td>Selective translation rather than holistic adoption. Forwarding the message without translating it to their context.</td>
+      </tr>
+      <tr>
+        <td><span class="level-badge">Brand Support Center</span></td>
+        <td>Simultaneously Owners and Subjects of change. Model Meaning personally and execute Velocity — they are giving up function or adding function.</td>
+        <td>Treating change as something that happens to others, not to BSC itself.</td>
+      </tr>
+      <tr>
+        <td><span class="level-badge">Regional VP</span></td>
+        <td>Translate Meaning into regional context. Own Velocity within their geography. Surface resistance as diagnostic data up the chain.</td>
+        <td>Delegating Meaning translation entirely to Brand Presidents without regional context.</td>
+      </tr>
+      <tr>
+        <td><span class="level-badge">Brand Presidents</span></td>
+        <td>Translate Meaning into brand-specific context. Own Establishment at the brand level. Define what the change means for the frontline in their brand.</td>
+        <td>Compliance signaling without genuine adoption. Completing the Roadmap without internalizing it.</td>
+      </tr>
+      <tr>
+        <td><span class="level-badge">Frontline</span></td>
+        <td>Adopt the new behavior. Provide honest feedback on what is and isn't working. Are entitled to understand the Why.</td>
+        <td>Being asked to change behavior without being given Meaning — producing compliance, not commitment.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ROADMAP -->
+<div id="roadmap">
+<div class="section">
+  <div class="section-header">
+    <div class="section-header-text">
+      <h2>MOVE Roadmap</h2>
+      <div class="section-tagline">The working document every Change Champion completes. Anyone who owns a piece of the change should be able to see the full plan.</div>
+    </div>
+  </div>
+
+  <div class="roadmap-form">
+    <!-- Header -->
+    <div style="padding:24px 24px 0; border-bottom: 1px solid var(--gray-200);">
+      <div style="display:flex; gap:12px; align-items:flex-end; padding-bottom:20px; flex-wrap:wrap;">
+        <div class="form-field" style="flex:1; min-width:200px;">
+          <label>Change / Project Name</label>
+          <input type="text" placeholder="e.g., MOVE Framework Rollout">
+        </div>
+        <div class="form-field" style="flex:1; min-width:200px;">
+          <label>Change Champion</label>
+          <input type="text" placeholder="Name">
+        </div>
+        <div class="form-field" style="width:160px;">
+          <label>Target Date</label>
+          <input type="text" placeholder="MM/YYYY">
+        </div>
+      </div>
+    </div>
+
+    <!-- M -->
+    <div class="form-section-header">
+      <div class="form-section-letter bg-m">M</div>
+      <div>
+        <h3>Meaning</h3>
+        <span>The enterprise meaning — how the change will affect the larger organizational body</span>
+      </div>
+    </div>
+    <div class="form-body">
+      <div class="form-row">
+        <div class="form-field">
+          <label>What is Changing?</label>
+          <textarea placeholder="Describe what will be different after this change..."></textarea>
+        </div>
+        <div class="form-field">
+          <label>What will be Lost?</label>
+          <textarea placeholder="Name what ends. Who pays the cost. Be explicit."></textarea>
+        </div>
+      </div>
+      <div class="form-field">
+        <label>What are the Possibilities?</label>
+        <textarea placeholder="What becomes available that wasn't before?"></textarea>
+      </div>
+      <div class="form-field">
+        <label>Meaning Summary (3 sentences)</label>
+        <textarea placeholder="Condense the above into 3 succinct sentences..."></textarea>
+      </div>
+    </div>
+
+    <!-- O -->
+    <div class="form-section-header" style="border-top: 1px solid var(--gray-200);">
+      <div class="form-section-letter bg-o">O</div>
+      <div>
+        <h3>Ownership</h3>
+        <span>Who carries the change at each level, and the primary deliverable each owns</span>
+      </div>
+    </div>
+    <div class="form-body">
+      <div class="form-row">
+        <div class="form-field">
+          <label>Executive Sponsor</label>
+          <input type="text" placeholder="Name — Primary deliverable">
+        </div>
+        <div class="form-field">
+          <label>Senior Leadership</label>
+          <input type="text" placeholder="Name(s) — Primary deliverable">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Brand Support Center</label>
+          <input type="text" placeholder="Name(s) — Primary deliverable">
+        </div>
+        <div class="form-field">
+          <label>Regional VP</label>
+          <input type="text" placeholder="Name(s) — Primary deliverable">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Brand Presidents</label>
+          <input type="text" placeholder="Primary deliverable">
+        </div>
+        <div class="form-field">
+          <label>Frontline</label>
+          <input type="text" placeholder="Primary deliverable">
+        </div>
+      </div>
+      <div class="form-field">
+        <label>Ownership Summary (3 sentences)</label>
+        <textarea placeholder="Condense the above into 3 succinct sentences..."></textarea>
+      </div>
+    </div>
+
+    <!-- V -->
+    <div class="form-section-header" style="border-top: 1px solid var(--gray-200);">
+      <div class="form-section-letter bg-v">V</div>
+      <div>
+        <h3>Velocity</h3>
+        <span>How the change will occur, what new behavior is expected, within what timeframe</span>
+      </div>
+    </div>
+    <div class="form-body">
+      <div class="form-row">
+        <div class="form-field">
+          <label>Timeframe for Change</label>
+          <input type="text" placeholder="e.g., Q3 2026 — 90 days">
+        </div>
+        <div class="form-field">
+          <label>Behavioral Goal(s) of Change Adoption</label>
+          <input type="text" placeholder="What will people do differently?">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Critical Milestones (Time-Bound)</label>
+          <textarea placeholder="Milestone 1: [date]&#10;Milestone 2: [date]&#10;Milestone 3: [date]"></textarea>
+        </div>
+        <div class="form-field">
+          <label>Critical Benchmarks (Standards-Bound)</label>
+          <textarea placeholder="Benchmark 1: [standard]&#10;Benchmark 2: [standard]"></textarea>
+        </div>
+      </div>
+      <div class="form-field">
+        <label>Velocity Summary (3 sentences)</label>
+        <textarea placeholder="Condense the above into 3 succinct sentences..."></textarea>
+      </div>
+    </div>
+
+    <!-- E -->
+    <div class="form-section-header" style="border-top: 1px solid var(--gray-200);">
+      <div class="form-section-letter bg-e">E</div>
+      <div>
+        <h3>Establishment</h3>
+        <span>The locking mechanisms and standards that make the change stick</span>
+      </div>
+    </div>
+    <div class="form-body">
+      <div class="form-row">
+        <div class="form-field">
+          <label>Expected Behaviors After Change</label>
+          <textarea placeholder="What does 'done' look like behaviorally?"></textarea>
+        </div>
+        <div class="form-field">
+          <label>Data Points to Audit</label>
+          <textarea placeholder="Which metrics confirm the change has taken hold?"></textarea>
+        </div>
+      </div>
+      <div class="form-field">
+        <label>Documents and Systems to Update (Locking Mechanisms)</label>
+        <textarea placeholder="Templates, job descriptions, scorecards, recurring agenda items, onboarding materials..."></textarea>
+      </div>
+      <div class="form-field">
+        <label>Establishment Summary (3 sentences)</label>
+        <textarea placeholder="Condense the above into 3 succinct sentences..."></textarea>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="form-actions">
+      <button class="btn-primary" onclick="alert('In the full build, this would save and route your roadmap for review.')">Save Roadmap</button>
+      <button class="btn-secondary" onclick="generateSummary()">Generate AI Summary</button>
+      <span class="form-note">Wireframe — data is not saved between sessions</span>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- WORKSHEET -->
+<div id="worksheet">
+<div class="section">
+  <div class="section-header">
+    <div class="section-header-text">
+      <h2>Meaning Worksheet</h2>
+      <div class="section-tagline">The disciplined work behind the Meaning standard — for Change Champions</div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-bottom:24px;">
+    <div class="callout-title">Purpose</div>
+    <p>This worksheet structures the Change Champion's thinking to ensure each Meaning standard is well-defined before seeking approval or advancing to Ownership. <strong>Complete all four plays. The play is not complete until the change, the loss, and the possibilities are all captured.</strong></p>
+  </div>
+
+  <div class="worksheet-container">
+
+    <div class="ws-play open">
+      <div class="ws-play-header" onclick="togglePlay(this)">
+        <div class="ws-play-num">1</div>
+        <h4>Meaning Construction / Alignment</h4>
+        <span class="ws-chevron">▲</span>
+      </div>
+      <div class="ws-play-body">
+        <p class="ws-play-desc">Define what needs to change, what will be lost and who pays the cost, and the perceived benefits. This is not complete until all three are captured.</p>
+        <div style="margin-bottom:8px; font-size:0.75rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--gray-400);">What are we solving for?</div>
+        <div class="form-field"><textarea placeholder="Define the problem or opportunity this change addresses..."></textarea></div>
+        <div class="meaning-grid">
+          <div class="meaning-col">
+            <label>What is changing?</label>
+            <textarea placeholder="The specific behavior, process, structure, or standard that will be different..."></textarea>
+          </div>
+          <div class="meaning-col">
+            <label>What will be lost?</label>
+            <textarea placeholder="Name it explicitly. Who pays the cost? What ends?"></textarea>
+          </div>
+          <div class="meaning-col">
+            <label>What are the possibilities?</label>
+            <textarea placeholder="What becomes available? What does this make possible that wasn't before?"></textarea>
+          </div>
+        </div>
+        <div style="margin-bottom:8px; font-size:0.75rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--gray-400);">Establishment (define before advancing)</div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>Standard to be put in place</label>
+            <textarea placeholder="The new expected behavior or outcome..."></textarea>
+          </div>
+          <div class="form-field">
+            <label>KPI / Expectation</label>
+            <textarea placeholder="How will you measure it?"></textarea>
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Locking mechanism to drive conformance</label>
+          <textarea placeholder="What document, metric, review, or process locks this standard in place?"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="ws-play">
+      <div class="ws-play-header" onclick="togglePlay(this)">
+        <div class="ws-play-num">2</div>
+        <h4>The Loss Investigation Loop</h4>
+        <span class="ws-chevron">▼</span>
+      </div>
+      <div class="ws-play-body">
+        <p class="ws-play-desc">Before any further step, consult at least two individuals who will "pay the cost." Name them, then capture the additional losses they surface so they can be folded into the Meaning without changing its direction.</p>
+        <table class="loss-table">
+          <thead>
+            <tr>
+              <th style="width:30%">Role</th>
+              <th style="width:30%">Name</th>
+              <th>Loss Notes — what they stand to lose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="text" placeholder="Role / Level"></td>
+              <td><input type="text" placeholder="Name"></td>
+              <td><input type="text" placeholder="What they told you..."></td>
+            </tr>
+            <tr>
+              <td><input type="text" placeholder="Role / Level"></td>
+              <td><input type="text" placeholder="Name"></td>
+              <td><input type="text" placeholder="What they told you..."></td>
+            </tr>
+            <tr>
+              <td><input type="text" placeholder="Role / Level"></td>
+              <td><input type="text" placeholder="Name"></td>
+              <td><input type="text" placeholder="What they told you..."></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="ws-play">
+      <div class="ws-play-header" onclick="togglePlay(this)">
+        <div class="ws-play-num">3</div>
+        <h4>Meaning Empathetic Evaluation — By Level</h4>
+        <span class="ws-chevron">▼</span>
+      </div>
+      <div class="ws-play-body">
+        <p class="ws-play-desc">Step into the paying individual's perspective at each level. This is an empathetic exercise, not a checkbox. Dissect the three-part Meaning for each altitude.</p>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div style="overflow-x:auto;">
+          <table class="loss-table" style="min-width:500px;">
+            <thead>
+              <tr>
+                <th style="width:18%">Level</th>
+                <th>What is changing for them?</th>
+                <th>What will they lose?</th>
+                <th>What are their gains?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight:600; color:var(--navy); font-size:0.8rem;">ELT</td>
+                <td><input type="text" placeholder="..."></td>
+                <td><input type="text" placeholder="..."></td>
+                <td><input type="text" placeholder="..."></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600; color:var(--navy); font-size:0.8rem;">Sr. Leaders</td>
+                <td><input type="text" placeholder="..."></td>
+                <td><input type="text" placeholder="..."></td>
+                <td><input type="text" placeholder="..."></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600; color:var(--navy); font-size:0.8rem;">BSC</td>
+                <td><input type="text" placeholder="..."></td>
+                <td><input type="text" placeholder="..."></td>
+                <td><input type="text" placeholder="..."></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600; color:var(--navy); font-size:0.8rem;">RVPs</td>
+                <td><input type="text" placeholder="..."></td>
+                <td><input type="text" placeholder="..."></td>
+                <td><input type="text" placeholder="..."></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600; color:var(--navy); font-size:0.8rem;">Brand Presidents</td>
+                <td><input type="text" placeholder="..."></td>
+                <td><input type="text" placeholder="..."></td>
+                <td><input type="text" placeholder="..."></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600; color:var(--navy); font-size:0.8rem;">Frontline</td>
+                <td><input type="text" placeholder="..."></td>
+                <td><input type="text" placeholder="..."></td>
+                <td><input type="text" placeholder="..."></td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ws-play">
+      <div class="ws-play-header" onclick="togglePlay(this)">
+        <div class="ws-play-num">4</div>
+        <h4>Evolving Meaning — Change Log</h4>
+        <span class="ws-chevron">▼</span>
+      </div>
+      <div class="ws-play-body">
+        <p class="ws-play-desc">Accept that facts may require Meaning to be updated. Log what changed, when, and how you communicated it. All stakeholders align — silence on a changed fact is spin.</p>
+        <table class="loss-table">
+          <thead>
+            <tr>
+              <th style="width:15%">Date</th>
+              <th>What changed in the Meaning</th>
+              <th style="width:30%">How it was communicated</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="text" placeholder="MM/DD/YY"></td>
+              <td><input type="text" placeholder="What fact or component changed..."></td>
+              <td><input type="text" placeholder="Email / meeting / update to roadmap..."></td>
+            </tr>
+            <tr>
+              <td><input type="text" placeholder="MM/DD/YY"></td>
+              <td><input type="text" placeholder=""></td>
+              <td><input type="text" placeholder=""></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <strong>MOVE — The IHS Change Standard</strong> &nbsp;·&nbsp; Version 1 &nbsp;·&nbsp; Infinity Home Services &nbsp;·&nbsp; Internal Use Only
+</footer>
+
+<script>
+  function switchTab(btn, tabId) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+  }
+
+  function togglePlay(header) {
+    const play = header.parentElement;
+    const chevron = header.querySelector('.ws-chevron');
+    const isOpen = play.classList.contains('open');
+    play.classList.toggle('open');
+    chevron.textContent = isOpen ? '▼' : '▲';
+  }
+
+  function generateSummary() {
+    alert('In the full build, this would call an AI to synthesize all roadmap fields into a clear three-sentence change summary, which you would then review and audit before finalizing.');
+  }
+
+  // Highlight active nav link on scroll
+  const sections = document.querySelectorAll('[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.remove('active');
+      if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
