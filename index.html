@@ -12,7 +12,6 @@
     --gold: #C8952A;
     --gold-light: #F0B430;
     --off-white: #F7F8FA;
-    --white: #FFFFFF;
     --gray-100: #F0F2F5;
     --gray-200: #E1E5EC;
     --gray-400: #9AA3B2;
@@ -23,97 +22,126 @@
     --v-color: #C8952A;
     --e-color: #2D6A4F;
     --radius: 10px;
+    --section-pad: clamp(32px, 5vw, 64px);
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
   body {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     background: var(--off-white);
     color: var(--text);
     line-height: 1.6;
+    overflow-x: hidden;
   }
 
-  /* NAV */
+  /* ─── NAV ─────────────────────────────────────────── */
   nav {
     background: var(--navy);
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 200;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 40px;
-    height: 60px;
+    padding: 0 20px;
+    height: 56px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.25);
   }
   .nav-brand {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     color: white;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.02em;
     text-decoration: none;
     flex-shrink: 0;
   }
   .nav-logo {
-    width: 32px; height: 32px;
+    width: 30px; height: 30px;
     background: var(--gold);
     border-radius: 6px;
     display: flex; align-items: center; justify-content: center;
-    font-weight: 900; font-size: 0.85rem; color: white; letter-spacing: -1px;
+    font-weight: 900; font-size: 0.8rem; color: white; letter-spacing: -1px;
+    flex-shrink: 0;
   }
-  .nav-links { display: flex; gap: 4px; }
+  .nav-links {
+    display: flex;
+    gap: 2px;
+  }
   .nav-links a {
     color: rgba(255,255,255,0.75);
     text-decoration: none;
-    padding: 6px 12px;
+    padding: 8px 11px;
     border-radius: 6px;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     font-weight: 500;
     transition: all 0.15s;
     white-space: nowrap;
+    min-height: 44px;
+    display: flex; align-items: center;
   }
-  .nav-links a:hover { color: white; background: rgba(255,255,255,0.1); }
-  .nav-links a.active { color: white; background: rgba(255,255,255,0.15); }
+  .nav-links a:hover,
+  .nav-links a.active { color: white; background: rgba(255,255,255,0.12); }
+
+  /* Hamburger */
   .nav-hamburger {
     display: none;
     flex-direction: column;
+    justify-content: center;
     gap: 5px;
     cursor: pointer;
-    padding: 4px;
+    padding: 10px 4px;
+    min-width: 44px; min-height: 44px;
+    align-items: center;
   }
   .nav-hamburger span {
     display: block;
     width: 22px; height: 2px;
-    background: rgba(255,255,255,0.8);
+    background: rgba(255,255,255,0.85);
     border-radius: 2px;
     transition: all 0.2s;
   }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
   .mobile-menu {
     display: none;
+    position: sticky;
+    top: 56px;
+    z-index: 190;
     background: #152038;
-    padding: 8px 16px 16px;
     flex-direction: column;
-    gap: 2px;
+    padding: 8px 12px 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   }
   .mobile-menu.open { display: flex; }
   .mobile-menu a {
-    color: rgba(255,255,255,0.8);
+    color: rgba(255,255,255,0.85);
     text-decoration: none;
-    padding: 10px 12px;
+    padding: 13px 12px;
     border-radius: 6px;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     font-weight: 500;
+    min-height: 44px;
+    display: flex; align-items: center;
   }
-  .mobile-menu a:hover { background: rgba(255,255,255,0.08); color: white; }
+  .mobile-menu a:active { background: rgba(255,255,255,0.08); }
 
-  /* HERO */
+  @media (max-width: 720px) {
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+  }
+
+  /* ─── HERO ────────────────────────────────────────── */
   .hero {
     background: linear-gradient(135deg, var(--navy) 0%, #2D4A72 60%, #1C5A6A 100%);
-    padding: 80px 40px 70px;
+    padding: clamp(48px, 8vw, 80px) clamp(16px, 5vw, 48px) clamp(48px, 8vw, 72px);
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -121,123 +149,125 @@
   .hero::before {
     content: '';
     position: absolute; inset: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
   }
   .hero-eyebrow {
     display: inline-block;
     background: rgba(200,149,42,0.2);
     color: var(--gold-light);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    padding: 4px 14px;
+    padding: 4px 12px;
     border-radius: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
     border: 1px solid rgba(200,149,42,0.3);
   }
   .hero h1 {
     color: white;
-    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-size: clamp(2rem, 7vw, 4rem);
     font-weight: 800;
     letter-spacing: -0.02em;
     line-height: 1.1;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
   .hero h1 span { color: var(--gold-light); }
   .hero-sub {
     color: rgba(255,255,255,0.75);
-    font-size: 1.1rem;
-    max-width: 580px;
-    margin: 0 auto 32px;
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    max-width: 560px;
+    margin: 0 auto 28px;
   }
   .hero-quote {
-    max-width: 640px;
-    margin: 0 auto 36px;
+    max-width: 580px;
+    margin: 0 auto 28px;
     background: rgba(255,255,255,0.06);
     border: 1px solid rgba(255,255,255,0.12);
     border-left: 3px solid var(--gold);
     border-radius: 8px;
-    padding: 16px 24px;
+    padding: 14px 18px;
     text-align: left;
   }
   .hero-quote p {
     color: rgba(255,255,255,0.85);
-    font-size: 0.95rem;
+    font-size: clamp(0.82rem, 2.2vw, 0.95rem);
     font-style: italic;
     line-height: 1.6;
   }
   .hero-quote cite {
     display: block;
-    margin-top: 8px;
+    margin-top: 7px;
     color: var(--gold-light);
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     font-style: normal;
     font-weight: 600;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
   }
   .hero-formula {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     background: rgba(255,255,255,0.08);
     border: 1px solid rgba(255,255,255,0.15);
     border-radius: 12px;
-    padding: 16px 28px;
+    padding: 14px 20px;
     flex-wrap: wrap;
     justify-content: center;
+    max-width: 100%;
   }
   .formula-item {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 0.9rem; color: rgba(255,255,255,0.85);
+    display: flex; align-items: center; gap: 7px;
+    font-size: clamp(0.78rem, 2vw, 0.9rem);
+    color: rgba(255,255,255,0.85);
   }
   .formula-letter {
-    width: 36px; height: 36px;
+    width: 34px; height: 34px;
     border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
-    font-weight: 900; font-size: 1.1rem; color: white;
+    font-weight: 900; font-size: 1rem; color: white;
     flex-shrink: 0;
   }
   .fl-m { background: var(--m-color); }
   .fl-o { background: var(--o-color); }
   .fl-v { background: var(--v-color); }
   .fl-e { background: var(--e-color); }
-  .formula-plus { color: rgba(255,255,255,0.4); font-size: 1.2rem; font-weight: 300; }
-  .formula-eq { color: var(--gold-light); font-size: 1.2rem; font-weight: 700; }
+  .formula-plus { color: rgba(255,255,255,0.35); font-size: 1rem; }
+  .formula-eq   { color: var(--gold-light); font-size: 1rem; font-weight: 700; }
 
-  /* SECTION WRAPPER */
+  /* ─── SECTION WRAPPER ─────────────────────────────── */
   .section {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 64px 24px;
+    padding: var(--section-pad) clamp(16px, 4vw, 28px);
   }
   .section-header {
     display: flex;
     align-items: flex-start;
-    gap: 20px;
-    margin-bottom: 40px;
+    gap: 16px;
+    margin-bottom: clamp(24px, 4vw, 40px);
   }
   .section-letter-badge {
-    width: 56px; height: 56px;
+    width: 52px; height: 52px;
     border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
-    font-weight: 900; font-size: 1.8rem; color: white;
+    font-weight: 900; font-size: 1.6rem; color: white;
     flex-shrink: 0;
   }
   .section-header-text h2 {
-    font-size: 1.75rem;
+    font-size: clamp(1.35rem, 4vw, 1.75rem);
     font-weight: 800;
     letter-spacing: -0.01em;
     color: var(--navy);
   }
-  .section-header-text .section-tagline {
-    font-size: 1rem;
+  .section-tagline {
+    font-size: clamp(0.82rem, 2vw, 1rem);
     color: var(--gray-400);
     font-style: italic;
-    margin-top: 2px;
+    margin-top: 3px;
   }
 
-  /* DIVIDER */
   .section-divider {
     background: var(--gray-200);
     height: 1px;
@@ -245,627 +275,121 @@
     margin: 0 auto;
   }
 
-  /* OVERVIEW CARDS */
+  /* ─── OVERVIEW CARDS ──────────────────────────────── */
   .overview-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
-    margin-bottom: 32px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
   }
   .move-card {
     background: white;
     border-radius: var(--radius);
-    padding: 28px;
+    padding: 22px;
     border: 1px solid var(--gray-200);
     transition: transform 0.2s, box-shadow 0.2s;
   }
-  .move-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  @media (hover: hover) {
+    .move-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  }
   .card-letter {
-    width: 48px; height: 48px;
+    width: 44px; height: 44px;
     border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
-    font-weight: 900; font-size: 1.5rem; color: white;
-    margin-bottom: 16px;
+    font-weight: 900; font-size: 1.4rem; color: white;
+    margin-bottom: 14px;
   }
-  .move-card h3 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 6px;
-  }
+  .move-card h3 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
   .move-card .card-sub {
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--gray-400);
-    margin-bottom: 10px;
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--gray-400); margin-bottom: 8px;
   }
-  .move-card p { font-size: 0.9rem; color: var(--gray-700); line-height: 1.55; }
+  .move-card p { font-size: 0.875rem; color: var(--gray-700); line-height: 1.55; }
 
-  /* NOT CALLOUT */
+  /* ─── IS / IS NOT ─────────────────────────────────── */
   .not-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-top: 32px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 16px;
+    margin-top: 24px;
   }
-  @media (max-width: 600px) { .not-grid { grid-template-columns: 1fr; } }
   .not-card {
     background: white;
     border-radius: var(--radius);
     border: 1px solid var(--gray-200);
-    padding: 20px 24px;
+    padding: 18px 20px;
   }
-  .not-card .not-label {
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+  .not-label {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 12px;
+    display: flex; align-items: center; gap: 6px;
   }
-  .not-card .not-label.is-not { color: #C0392B; }
-  .not-card .not-label.is { color: var(--e-color); }
-  .not-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
-  .not-list li {
-    font-size: 0.875rem;
-    color: var(--gray-700);
-    padding-left: 16px;
-    position: relative;
-    line-height: 1.45;
+  .not-label.is-not { color: #C0392B; }
+  .not-label.is     { color: var(--e-color); }
+  .not-list, .is-list {
+    list-style: none; display: flex; flex-direction: column; gap: 8px;
   }
-  .not-list li::before {
-    content: '×';
-    position: absolute; left: 0;
-    font-weight: 700;
-    color: #C0392B;
+  .not-list li, .is-list li {
+    font-size: 0.875rem; color: var(--gray-700);
+    padding-left: 18px; position: relative; line-height: 1.45;
   }
-  .is-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
-  .is-list li {
-    font-size: 0.875rem;
-    color: var(--gray-700);
-    padding-left: 16px;
-    position: relative;
-    line-height: 1.45;
-  }
-  .is-list li::before {
-    content: '✓';
-    position: absolute; left: 0;
-    font-weight: 700;
-    color: var(--e-color);
-  }
+  .not-list li::before { content: '×'; position: absolute; left: 0; font-weight: 700; color: #C0392B; }
+  .is-list  li::before { content: '✓'; position: absolute; left: 0; font-weight: 700; color: var(--e-color); }
 
-  /* PLAYS */
-  .plays-list { display: flex; flex-direction: column; gap: 16px; }
+  /* ─── PLAYS ───────────────────────────────────────── */
+  .plays-list { display: flex; flex-direction: column; gap: 12px; }
   .play-item {
     background: white;
     border-radius: var(--radius);
-    padding: 20px 24px;
+    padding: 16px 18px;
     border: 1px solid var(--gray-200);
     display: flex;
-    gap: 18px;
+    gap: 14px;
     align-items: flex-start;
   }
   .play-num {
-    width: 32px; height: 32px;
+    width: 30px; height: 30px; min-width: 30px;
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: 0.85rem; color: white;
-    flex-shrink: 0;
+    font-weight: 700; font-size: 0.8rem; color: white;
   }
-  .play-item h4 { font-size: 0.95rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
-  .play-item p { font-size: 0.875rem; color: var(--gray-700); line-height: 1.55; }
+  .play-item h4 { font-size: 0.9rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .play-item p  { font-size: 0.845rem; color: var(--gray-700); line-height: 1.55; }
 
-  /* STAGE GATES */
-  .gates-intro {
-    background: #FEF9EC;
-    border: 1px solid rgba(200,149,42,0.3);
-    border-radius: var(--radius);
-    padding: 16px 20px;
-    margin-bottom: 24px;
-    font-size: 0.875rem;
-    color: var(--gray-700);
-    line-height: 1.6;
-  }
-  .gates-intro strong { color: var(--navy); }
-  .gates-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 16px;
-    margin-bottom: 24px;
-  }
-  .gate-card {
-    background: white;
-    border-radius: var(--radius);
-    padding: 24px;
-    border: 1px solid var(--gray-200);
-    transition: border-color 0.2s;
-  }
-  .gate-card.checked { border-color: var(--e-color); background: #F0FAF4; }
-  .gate-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-  }
-  .gate-num {
-    display: inline-flex;
-    align-items: center; justify-content: center;
-    width: 28px; height: 28px;
-    background: var(--navy);
-    color: white;
-    font-size: 0.8rem;
-    font-weight: 700;
-    border-radius: 50%;
-  }
-  .gate-checkbox {
-    width: 22px; height: 22px;
-    border: 2px solid var(--gray-200);
-    border-radius: 6px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.75rem;
-    color: transparent;
-    transition: all 0.15s;
-    user-select: none;
-    flex-shrink: 0;
-  }
-  .gate-card.checked .gate-checkbox {
-    background: var(--e-color);
-    border-color: var(--e-color);
-    color: white;
-  }
-  .gate-card h4 {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 8px;
-  }
-  .gate-card .standard-label {
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--teal);
-    margin-bottom: 4px;
-  }
-  .gate-card p { font-size: 0.85rem; color: var(--gray-700); line-height: 1.5; }
-
-  .gate-status {
-    background: white;
-    border: 2px solid var(--gray-200);
-    border-radius: var(--radius);
-    padding: 16px 24px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    transition: all 0.3s;
-  }
-  .gate-status.go {
-    background: #F0FAF4;
-    border-color: var(--e-color);
-  }
-  .gate-status-dot {
-    width: 14px; height: 14px;
-    border-radius: 50%;
-    background: var(--gray-200);
-    flex-shrink: 0;
-    transition: background 0.3s;
-  }
-  .gate-status.go .gate-status-dot { background: var(--e-color); }
-  .gate-status-text { font-size: 0.9rem; font-weight: 600; color: var(--gray-400); }
-  .gate-status.go .gate-status-text { color: var(--e-color); }
-  .gate-progress {
-    flex: 1;
-    height: 6px;
-    background: var(--gray-200);
-    border-radius: 3px;
-    overflow: hidden;
-  }
-  .gate-progress-fill {
-    height: 100%;
-    background: var(--e-color);
-    border-radius: 3px;
-    width: 0%;
-    transition: width 0.3s;
-  }
-
-  /* ALTITUDE CASCADE */
-  .altitude-section { display: flex; flex-direction: column; gap: 0; }
-  .altitude-tier {
-    display: flex;
-    gap: 0;
-    position: relative;
-  }
-  .altitude-tier::before {
-    content: '';
-    position: absolute;
-    left: 109px;
-    top: 100%;
-    width: 2px;
-    height: 0;
-    background: var(--gray-200);
-    z-index: 0;
-  }
-  .altitude-tier:not(:last-child)::before { height: 16px; }
-  .altitude-left {
-    width: 220px;
-    flex-shrink: 0;
-    padding: 0 16px 16px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
-    padding-top: 14px;
-  }
-  .altitude-label {
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: var(--navy);
-    text-align: right;
-    white-space: nowrap;
-  }
-  .altitude-connector {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    width: 100%;
-    justify-content: flex-end;
-    padding-top: 4px;
-  }
-  .altitude-dot {
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    background: var(--navy);
-    flex-shrink: 0;
-    position: relative;
-    z-index: 1;
-  }
-  .altitude-line {
-    height: 2px;
-    flex: 1;
-    background: var(--gray-200);
-  }
-  .altitude-card {
-    flex: 1;
-    background: white;
-    border-radius: var(--radius);
-    border: 1px solid var(--gray-200);
-    padding: 16px 20px;
-    margin-bottom: 16px;
-    transition: box-shadow 0.2s;
-  }
-  .altitude-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
-  .altitude-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 8px;
-  }
-  .altitude-role {
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--teal);
-  }
-  .altitude-owns {
-    font-size: 0.875rem;
-    color: var(--gray-700);
-    line-height: 1.5;
-    margin-bottom: 8px;
-  }
-  .altitude-failure {
-    font-size: 0.78rem;
-    color: #C0392B;
-    background: #FDF2F2;
-    border-radius: 5px;
-    padding: 6px 10px;
-    line-height: 1.45;
-  }
-  .altitude-failure::before { content: '⚠ '; }
-
-  /* ROADMAP PROGRESS */
-  .roadmap-progress {
-    display: flex;
-    align-items: center;
-    margin-bottom: 24px;
-    background: white;
-    border-radius: var(--radius);
-    border: 1px solid var(--gray-200);
-    overflow: hidden;
-  }
-  .progress-step {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 16px;
-    cursor: pointer;
-    transition: background 0.15s;
-    position: relative;
-  }
-  .progress-step:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    right: 0; top: 50%;
-    transform: translateY(-50%);
-    width: 0; height: 0;
-    border-left: 10px solid var(--gray-200);
-    border-top: 22px solid transparent;
-    border-bottom: 22px solid transparent;
-    z-index: 1;
-  }
-  .progress-step.active { background: var(--gray-100); }
-  .progress-step.active::after { border-left-color: var(--gray-100); }
-  .progress-step.done { background: #F0FAF4; }
-  .progress-step.done::after { border-left-color: #F0FAF4; }
-  .progress-step-letter {
-    width: 32px; height: 32px;
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 900; font-size: 1rem; color: white;
-    flex-shrink: 0;
-    opacity: 0.4;
-    transition: opacity 0.2s;
-  }
-  .progress-step.active .progress-step-letter,
-  .progress-step.done .progress-step-letter { opacity: 1; }
-  .progress-step-info { display: flex; flex-direction: column; }
-  .progress-step-name {
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: var(--gray-400);
-    transition: color 0.2s;
-  }
-  .progress-step.active .progress-step-name { color: var(--navy); }
-  .progress-step.done .progress-step-name { color: var(--e-color); }
-  .progress-step-check {
-    font-size: 0.75rem;
-    color: var(--e-color);
-    font-weight: 700;
-    display: none;
-  }
-  .progress-step.done .progress-step-check { display: block; }
-  @media (max-width: 500px) {
-    .progress-step-info { display: none; }
-    .progress-step { padding: 12px; justify-content: center; }
-  }
-
-  /* ROADMAP FORM */
-  .roadmap-form {
-    background: white;
-    border-radius: var(--radius);
-    border: 1px solid var(--gray-200);
-    overflow: hidden;
-  }
-  .form-panel { display: none; }
-  .form-panel.active { display: block; }
-  .form-section-header {
-    padding: 16px 24px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    border-bottom: 1px solid var(--gray-200);
-    background: var(--gray-100);
-  }
-  .form-section-letter {
-    width: 32px; height: 32px;
-    border-radius: 7px;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 900; font-size: 1rem; color: white;
-    flex-shrink: 0;
-  }
-  .form-section-header h3 {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--navy);
-  }
-  .form-section-header span {
-    font-size: 0.8rem;
-    color: var(--gray-400);
-    font-style: italic;
-  }
-  .form-body { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
-  .form-field label {
-    display: block;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--gray-700);
-    margin-bottom: 6px;
-  }
-  .form-field input,
-  .form-field textarea {
-    width: 100%;
-    border: 1px solid var(--gray-200);
-    border-radius: 7px;
-    padding: 10px 14px;
-    font-size: 0.9rem;
-    font-family: inherit;
-    color: var(--text);
-    background: var(--gray-100);
-    transition: border-color 0.15s, background 0.15s;
-    resize: vertical;
-  }
-  .form-field input:focus,
-  .form-field textarea:focus {
-    outline: none;
-    border-color: var(--teal);
-    background: white;
-  }
-  .form-field textarea { min-height: 80px; }
-  .form-actions {
-    padding: 20px 24px;
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    background: var(--gray-100);
-    border-top: 1px solid var(--gray-200);
-    flex-wrap: wrap;
-  }
-  .btn-primary {
-    background: var(--teal);
-    color: white;
-    border: none;
-    border-radius: 7px;
-    padding: 10px 24px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: inherit;
-    transition: background 0.15s;
-  }
-  .btn-primary:hover { background: var(--teal-light); }
-  .btn-secondary {
-    background: transparent;
-    color: var(--gray-700);
-    border: 1px solid var(--gray-200);
-    border-radius: 7px;
-    padding: 10px 24px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.15s;
-  }
-  .btn-secondary:hover { border-color: var(--navy); color: var(--navy); background: white; }
-  .form-note { font-size: 0.8rem; color: var(--gray-400); font-style: italic; }
-
-  /* WORKSHEET */
-  .worksheet-container { display: flex; flex-direction: column; gap: 20px; }
-  .ws-play {
-    background: white;
-    border-radius: var(--radius);
-    border: 1px solid var(--gray-200);
-    overflow: hidden;
-  }
-  .ws-play-header {
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    user-select: none;
-  }
-  .ws-play-num {
-    width: 28px; height: 28px;
-    background: var(--m-color);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.8rem; font-weight: 700; color: white;
-    flex-shrink: 0;
-  }
-  .ws-play-header h4 { font-size: 0.95rem; font-weight: 700; color: var(--navy); flex: 1; }
-  .ws-chevron { color: var(--gray-400); font-size: 0.8rem; transition: transform 0.2s; }
-  .ws-play.open .ws-chevron { transform: rotate(180deg); }
-  .ws-play-body {
-    padding: 0 20px 20px;
-    display: none;
-    flex-direction: column;
-    gap: 14px;
-  }
-  .ws-play.open .ws-play-body { display: flex; }
-  .ws-play-desc {
-    font-size: 0.875rem;
-    color: var(--gray-700);
-    line-height: 1.55;
-    border-top: 1px solid var(--gray-100);
-    padding-top: 16px;
-  }
-  .meaning-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-  }
-  @media (max-width: 700px) { .meaning-grid { grid-template-columns: 1fr; } }
-  .meaning-col {
-    background: var(--gray-100);
-    border-radius: 8px;
-    padding: 16px;
-  }
-  .meaning-col label {
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--m-color);
-    display: block;
-    margin-bottom: 8px;
-  }
-  .meaning-col textarea {
-    width: 100%;
-    border: 1px solid var(--gray-200);
-    border-radius: 6px;
-    padding: 8px 10px;
-    font-size: 0.875rem;
-    font-family: inherit;
-    min-height: 90px;
-    resize: vertical;
-    background: white;
-    color: var(--text);
-  }
-  .meaning-col textarea:focus { outline: none; border-color: var(--m-color); }
-  .loss-table { width: 100%; border-collapse: collapse; }
-  .loss-table th {
-    background: var(--gray-100);
-    padding: 8px 12px;
-    text-align: left;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--gray-700);
-    border-bottom: 2px solid var(--gray-200);
-  }
-  .loss-table td { padding: 8px 12px; border-bottom: 1px solid var(--gray-200); }
-  .loss-table td input {
-    width: 100%;
-    border: none;
-    background: transparent;
-    font-size: 0.875rem;
-    font-family: inherit;
-    color: var(--text);
-  }
-  .loss-table td input:focus { outline: none; }
-
-  /* CALLOUT */
+  /* ─── CALLOUT ─────────────────────────────────────── */
   .callout {
     background: linear-gradient(135deg, rgba(0,105,122,0.06), rgba(0,105,122,0.02));
     border: 1px solid rgba(0,105,122,0.2);
     border-radius: var(--radius);
-    padding: 20px 24px;
+    padding: 16px 20px;
   }
   .callout-title {
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--teal);
-    margin-bottom: 8px;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--teal); margin-bottom: 6px;
   }
   .callout p { font-size: 0.875rem; color: var(--gray-700); line-height: 1.6; }
   .callout strong { color: var(--navy); }
 
-  /* TABS */
+  /* ─── TABS ────────────────────────────────────────── */
+  .tabs-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 20px;
+    /* hide scrollbar visually */
+    scrollbar-width: none;
+  }
+  .tabs-wrapper::-webkit-scrollbar { display: none; }
   .tabs {
     display: flex;
-    gap: 4px;
-    margin-bottom: 24px;
+    gap: 3px;
     background: var(--gray-200);
     padding: 4px;
     border-radius: 10px;
-    width: fit-content;
-    flex-wrap: wrap;
+    width: max-content;
+    min-width: 100%;
   }
   .tab-btn {
-    padding: 8px 18px;
+    padding: 9px 16px;
     border-radius: 7px;
     border: none;
     background: transparent;
@@ -875,6 +399,8 @@
     font-family: inherit;
     cursor: pointer;
     transition: all 0.15s;
+    white-space: nowrap;
+    min-height: 44px;
   }
   .tab-btn.active {
     background: white;
@@ -884,34 +410,465 @@
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
 
-  /* FOOTER */
-  footer {
+  /* ─── STAGE GATES ─────────────────────────────────── */
+  .gates-intro {
+    background: #FEF9EC;
+    border: 1px solid rgba(200,149,42,0.3);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 0.875rem;
+    color: var(--gray-700);
+    line-height: 1.6;
+  }
+  .gates-intro strong { color: var(--navy); }
+
+  .gates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .gate-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 18px;
+    border: 2px solid var(--gray-200);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  .gate-card:active { opacity: 0.85; }
+  .gate-card.checked { border-color: var(--e-color); background: #F0FAF4; }
+
+  .gate-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .gate-num {
+    width: 28px; height: 28px;
     background: var(--navy);
-    color: rgba(255,255,255,0.5);
-    text-align: center;
-    padding: 28px 24px;
-    font-size: 0.8rem;
-    letter-spacing: 0.04em;
+    color: white; font-size: 0.8rem; font-weight: 700;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .gate-checkbox {
+    width: 28px; height: 28px;
+    border: 2px solid var(--gray-200);
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem; color: transparent;
+    transition: all 0.15s;
+  }
+  .gate-card.checked .gate-checkbox {
+    background: var(--e-color);
+    border-color: var(--e-color);
+    color: white;
+  }
+  .gate-card h4 { font-size: 0.9rem; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .gate-card .standard-label {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--teal); margin-bottom: 4px;
+  }
+  .gate-card p { font-size: 0.82rem; color: var(--gray-700); line-height: 1.5; }
+
+  .gate-status {
+    background: white;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    display: flex; align-items: center; gap: 14px;
+    transition: all 0.3s;
+  }
+  .gate-status.go { background: #F0FAF4; border-color: var(--e-color); }
+  .gate-status-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--gray-200); flex-shrink: 0; transition: background 0.3s;
+  }
+  .gate-status.go .gate-status-dot { background: var(--e-color); }
+  .gate-progress {
+    flex: 1; height: 6px;
+    background: var(--gray-200); border-radius: 3px; overflow: hidden;
+  }
+  .gate-progress-fill {
+    height: 100%; background: var(--e-color);
+    border-radius: 3px; width: 0%; transition: width 0.3s;
+  }
+  .gate-status-text { font-size: 0.85rem; font-weight: 600; color: var(--gray-400); white-space: nowrap; }
+  .gate-status.go .gate-status-text { color: var(--e-color); }
+
+  @media (max-width: 500px) {
+    .gate-status { flex-wrap: wrap; gap: 8px; }
+    .gate-status-text { font-size: 0.8rem; white-space: normal; }
+  }
+
+  /* ─── ALTITUDE CASCADE ────────────────────────────── */
+  .altitude-section { display: flex; flex-direction: column; }
+  .altitude-tier {
+    display: flex;
+    gap: 0;
+    position: relative;
+    align-items: stretch;
+  }
+  .altitude-left {
+    width: 200px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 18px 14px 0 0;
+  }
+  .altitude-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--navy);
+    text-align: right;
+  }
+  .altitude-connector {
+    display: flex; align-items: center;
+    width: 100%;
+    justify-content: flex-end;
+    padding-top: 6px;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .altitude-h-line {
+    height: 2px; width: 100%;
+    background: var(--gray-200);
+    margin-top: 4px;
+  }
+  .altitude-v-line {
+    width: 2px;
+    flex: 1;
+    background: var(--gray-200);
+    margin-right: 0;
+    align-self: flex-end;
+    min-height: 20px;
+  }
+  .altitude-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    position: absolute;
+    left: 200px;
+    top: 22px;
+    transform: translateX(-5px);
+    z-index: 1;
+  }
+  .altitude-card {
+    flex: 1;
+    background: white;
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-200);
+    padding: 16px 18px;
+    margin-bottom: 14px;
+    margin-left: 16px;
+  }
+  .altitude-card-role-mobile {
+    display: none;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--navy);
+    background: var(--gray-100);
+    border-radius: 4px;
+    padding: 3px 8px;
+    margin-bottom: 10px;
+    width: fit-content;
+  }
+  .altitude-role {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--teal); margin-bottom: 6px;
+  }
+  .altitude-owns {
+    font-size: 0.875rem; color: var(--gray-700);
+    line-height: 1.5; margin-bottom: 8px;
+  }
+  .altitude-failure {
+    font-size: 0.78rem; color: #C0392B;
+    background: #FDF2F2; border-radius: 5px;
+    padding: 6px 10px; line-height: 1.45;
+  }
+  .altitude-failure::before { content: '⚠ '; }
+
+  @media (max-width: 600px) {
+    .altitude-left { display: none; }
+    .altitude-dot  { display: none; }
+    .altitude-card {
+      margin-left: 0;
+      border-left: 3px solid var(--navy);
+    }
+    .altitude-card-role-mobile { display: block; }
+    /* Color the left border per tier */
+    .tier-elt .altitude-card      { border-left-color: var(--m-color); }
+    .tier-sr .altitude-card       { border-left-color: var(--o-color); }
+    .tier-bsc .altitude-card      { border-left-color: var(--o-color); }
+    .tier-rvp .altitude-card      { border-left-color: var(--v-color); }
+    .tier-bp .altitude-card       { border-left-color: var(--v-color); }
+    .tier-front .altitude-card    { border-left-color: var(--e-color); }
+  }
+
+  /* ─── ROADMAP ─────────────────────────────────────── */
+
+  /* Progress stepper — horizontal on desktop, compact dots on mobile */
+  .roadmap-progress {
+    display: flex;
+    background: white;
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-200);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .progress-step {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 13px 14px;
+    cursor: pointer;
+    transition: background 0.15s;
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 56px;
+  }
+  /* arrow dividers — desktop only */
+  .progress-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -1px; top: 50%;
+    transform: translateY(-50%);
+    width: 0; height: 0;
+    border-left: 9px solid var(--gray-200);
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    z-index: 1;
+  }
+  .progress-step.active { background: var(--gray-100); }
+  .progress-step.active::after { border-left-color: var(--gray-100); }
+  .progress-step.done { background: #F0FAF4; }
+  .progress-step.done::after { border-left-color: #F0FAF4; }
+
+  .progress-step-letter {
+    width: 32px; height: 32px; min-width: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 0.95rem; color: white;
+    opacity: 0.35; transition: opacity 0.2s;
+  }
+  .progress-step.active .progress-step-letter,
+  .progress-step.done .progress-step-letter { opacity: 1; }
+
+  .progress-step-info { display: flex; flex-direction: column; min-width: 0; }
+  .progress-step-name {
+    font-size: 0.78rem; font-weight: 700;
+    color: var(--gray-400); white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+    transition: color 0.2s;
+  }
+  .progress-step.active .progress-step-name { color: var(--navy); }
+  .progress-step.done  .progress-step-name  { color: var(--e-color); }
+  .progress-step-check { font-size: 0.7rem; color: var(--e-color); font-weight: 700; display: none; }
+  .progress-step.done .progress-step-check { display: block; }
+
+  /* Mobile: label-less dots */
+  @media (max-width: 520px) {
+    .roadmap-progress { border-radius: var(--radius); }
+    .progress-step { justify-content: center; padding: 12px 8px; }
+    .progress-step:not(:last-child)::after { display: none; }
+    .progress-step-info { display: none; }
+    .progress-step-letter { opacity: 1; width: 36px; height: 36px; }
+    .progress-step:not(.active):not(.done) .progress-step-letter { opacity: 0.3; }
+    /* simple dot connector */
+    .roadmap-progress { gap: 0; }
+    .progress-step + .progress-step {
+      border-left: 1px solid var(--gray-200);
+    }
+  }
+
+  /* ─── ROADMAP FORM ────────────────────────────────── */
+  .roadmap-form {
+    background: white;
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-200);
+    overflow: hidden;
+  }
+  .form-panel { display: none; }
+  .form-panel.active { display: block; }
+
+  .form-section-header {
+    padding: 14px 18px;
+    display: flex; align-items: center; gap: 12px;
+    border-bottom: 1px solid var(--gray-200);
+    background: var(--gray-100);
+  }
+  .form-section-letter {
+    width: 32px; height: 32px; min-width: 32px;
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 1rem; color: white;
+  }
+  .form-section-header h3 { font-size: 0.95rem; font-weight: 700; color: var(--navy); }
+  .form-section-header span { font-size: 0.78rem; color: var(--gray-400); font-style: italic; }
+
+  .form-body { padding: 18px; display: flex; flex-direction: column; gap: 14px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 560px) { .form-row { grid-template-columns: 1fr; } }
+
+  .form-field label {
+    display: block; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--gray-700); margin-bottom: 5px;
+  }
+  .form-field input,
+  .form-field textarea {
+    width: 100%;
+    border: 1px solid var(--gray-200);
+    border-radius: 7px;
+    padding: 11px 14px;
+    font-size: 0.9rem; font-family: inherit;
+    color: var(--text); background: var(--gray-100);
+    transition: border-color 0.15s, background 0.15s;
+    resize: vertical;
+    /* iOS prevents zooming on inputs < 16px — use 16px */
+    font-size: 16px;
+  }
+  .form-field input:focus,
+  .form-field textarea:focus {
+    outline: none;
+    border-color: var(--teal);
+    background: white;
+  }
+  .form-field textarea { min-height: 80px; font-size: 15px; }
+
+  .form-actions {
+    padding: 16px 18px;
+    display: flex; gap: 10px; align-items: center;
+    background: var(--gray-100);
+    border-top: 1px solid var(--gray-200);
+    flex-wrap: wrap;
+  }
+  .form-note { font-size: 0.75rem; color: var(--gray-400); font-style: italic; width: 100%; }
+
+  /* Buttons — 44px min touch target */
+  .btn-primary {
+    background: var(--teal); color: white;
+    border: none; border-radius: 8px;
+    padding: 0 20px; height: 44px;
+    font-size: 0.88rem; font-weight: 600;
+    font-family: inherit; cursor: pointer;
+    transition: background 0.15s;
+    display: inline-flex; align-items: center;
+    white-space: nowrap;
+  }
+  .btn-primary:active { background: var(--navy); }
+  .btn-secondary {
+    background: transparent; color: var(--gray-700);
+    border: 1px solid var(--gray-200); border-radius: 8px;
+    padding: 0 20px; height: 44px;
+    font-size: 0.88rem; font-weight: 600;
+    font-family: inherit; cursor: pointer;
+    transition: all 0.15s;
+    display: inline-flex; align-items: center;
+    white-space: nowrap;
+  }
+  .btn-secondary:active { border-color: var(--navy); color: var(--navy); background: white; }
+
+  @media (max-width: 400px) {
+    .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+  }
+
+  /* ─── WORKSHEET ───────────────────────────────────── */
+  .worksheet-container { display: flex; flex-direction: column; gap: 16px; }
+  .ws-play {
+    background: white; border-radius: var(--radius);
+    border: 1px solid var(--gray-200); overflow: hidden;
+  }
+  .ws-play-header {
+    padding: 0 16px;
+    display: flex; align-items: center; gap: 12px;
+    cursor: pointer; user-select: none;
+    min-height: 56px; /* 44px+ touch target */
+    -webkit-tap-highlight-color: transparent;
+  }
+  .ws-play-num {
+    width: 28px; height: 28px; min-width: 28px;
+    background: var(--m-color); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem; font-weight: 700; color: white;
+  }
+  .ws-play-header h4 {
+    font-size: 0.9rem; font-weight: 700; color: var(--navy); flex: 1;
+    line-height: 1.35;
+  }
+  .ws-chevron { color: var(--gray-400); font-size: 0.75rem; transition: transform 0.2s; }
+  .ws-play.open .ws-chevron { transform: rotate(180deg); }
+  .ws-play-body { padding: 0 16px 18px; display: none; flex-direction: column; gap: 14px; }
+  .ws-play.open .ws-play-body { display: flex; }
+  .ws-play-desc {
+    font-size: 0.86rem; color: var(--gray-700); line-height: 1.55;
+    border-top: 1px solid var(--gray-100); padding-top: 14px;
+  }
+
+  .meaning-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 600px) { .meaning-grid { grid-template-columns: 1fr; } }
+
+  .meaning-col {
+    background: var(--gray-100); border-radius: 8px; padding: 14px;
+  }
+  .meaning-col label {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--m-color);
+    display: block; margin-bottom: 7px;
+  }
+  .meaning-col textarea {
+    width: 100%; border: 1px solid var(--gray-200);
+    border-radius: 6px; padding: 8px 10px;
+    font-size: 15px; font-family: inherit;
+    min-height: 88px; resize: vertical;
+    background: white; color: var(--text);
+  }
+  .meaning-col textarea:focus { outline: none; border-color: var(--m-color); }
+
+  /* Tables with horizontal scroll on mobile */
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .loss-table { width: 100%; border-collapse: collapse; min-width: 400px; }
+  .loss-table th {
+    background: var(--gray-100); padding: 9px 12px;
+    text-align: left; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--gray-700); border-bottom: 2px solid var(--gray-200);
+    white-space: nowrap;
+  }
+  .loss-table td { padding: 9px 12px; border-bottom: 1px solid var(--gray-200); }
+  .loss-table td input {
+    width: 100%; border: none; background: transparent;
+    font-size: 15px; font-family: inherit; color: var(--text);
+    min-height: 36px;
+  }
+  .loss-table td input:focus { outline: none; }
+
+  /* ─── FOOTER ──────────────────────────────────────── */
+  footer {
+    background: var(--navy); color: rgba(255,255,255,0.5);
+    text-align: center; padding: 28px 20px;
+    font-size: 0.78rem; letter-spacing: 0.04em; line-height: 1.8;
   }
   footer strong { color: rgba(255,255,255,0.8); }
 
-  /* UTILS */
+  /* ─── UTILS ───────────────────────────────────────── */
   .bg-m { background: var(--m-color); }
   .bg-o { background: var(--o-color); }
   .bg-v { background: var(--v-color); }
   .bg-e { background: var(--e-color); }
-
-  html { scroll-behavior: smooth; }
-
-  @media (max-width: 768px) {
-    nav { padding: 0 20px; }
-    .nav-links { display: none; }
-    .nav-hamburger { display: flex; }
-    .hero { padding: 50px 20px 50px; }
-    .section { padding: 40px 16px; }
-    .altitude-left { display: none; }
-    .roadmap-progress { overflow-x: auto; }
-  }
 </style>
 </head>
 <body>
@@ -923,23 +880,23 @@
     IHS Change Standard
   </a>
   <div class="nav-links">
-    <a href="#overview" class="nav-link">Overview</a>
-    <a href="#elements" class="nav-link">Elements</a>
-    <a href="#gates" class="nav-link">Stage Gates</a>
-    <a href="#altitude" class="nav-link">Altitude</a>
-    <a href="#roadmap" class="nav-link">Roadmap</a>
+    <a href="#overview"  class="nav-link">Overview</a>
+    <a href="#elements"  class="nav-link">Elements</a>
+    <a href="#gates"     class="nav-link">Stage Gates</a>
+    <a href="#altitude"  class="nav-link">Altitude</a>
+    <a href="#roadmap"   class="nav-link">Roadmap</a>
     <a href="#worksheet" class="nav-link">Worksheet</a>
   </div>
-  <div class="nav-hamburger" onclick="toggleMobileMenu()" id="hamburger">
+  <div class="nav-hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
     <span></span><span></span><span></span>
   </div>
 </nav>
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#overview" onclick="closeMobileMenu()">Overview</a>
-  <a href="#elements" onclick="closeMobileMenu()">The Four Elements</a>
-  <a href="#gates" onclick="closeMobileMenu()">Stage Gates</a>
-  <a href="#altitude" onclick="closeMobileMenu()">Altitude Architecture</a>
-  <a href="#roadmap" onclick="closeMobileMenu()">Roadmap</a>
+<div class="mobile-menu" id="mobileMenu" role="navigation">
+  <a href="#overview"  onclick="closeMobileMenu()">Overview</a>
+  <a href="#elements"  onclick="closeMobileMenu()">The Four Elements</a>
+  <a href="#gates"     onclick="closeMobileMenu()">Stage Gates</a>
+  <a href="#altitude"  onclick="closeMobileMenu()">Altitude Architecture</a>
+  <a href="#roadmap"   onclick="closeMobileMenu()">Roadmap</a>
   <a href="#worksheet" onclick="closeMobileMenu()">Meaning Worksheet</a>
 </div>
 
@@ -948,34 +905,20 @@
   <div class="hero-eyebrow">Version 1 · IHS Internal</div>
   <h1>The IHS <span>Change Standard</span></h1>
   <p class="hero-sub">A unified framework for leading change at every altitude of the organization — with discipline, transparency, and ownership at every level.</p>
-
   <div class="hero-quote">
     <p>"The whole point is to build something leaders will actually use — not something that only works in theory. That matters."</p>
     <cite>— Jay Teresi, CEO · Infinity Home Services</cite>
   </div>
-
   <div class="hero-formula">
-    <div class="formula-item">
-      <div class="formula-letter fl-m">M</div>
-      Meaning
-    </div>
+    <div class="formula-item"><div class="formula-letter fl-m">M</div>Meaning</div>
     <span class="formula-plus">+</span>
-    <div class="formula-item">
-      <div class="formula-letter fl-o">O</div>
-      Ownership
-    </div>
+    <div class="formula-item"><div class="formula-letter fl-o">O</div>Ownership</div>
     <span class="formula-plus">+</span>
-    <div class="formula-item">
-      <div class="formula-letter fl-v">V</div>
-      Velocity
-    </div>
+    <div class="formula-item"><div class="formula-letter fl-v">V</div>Velocity</div>
     <span class="formula-plus">+</span>
-    <div class="formula-item">
-      <div class="formula-letter fl-e">E</div>
-      Establishment
-    </div>
+    <div class="formula-item"><div class="formula-letter fl-e">E</div>Establishment</div>
     <span class="formula-eq">=</span>
-    <div class="formula-item" style="color:white; font-weight:700;">ONE IHS</div>
+    <div class="formula-item" style="color:white;font-weight:700;">ONE IHS</div>
   </div>
 </section>
 
@@ -1014,7 +957,6 @@
       <p>Define how the change is verified and solidified as the new standard. Before launch, know what metric, document, and performance mechanism locks the change in place.</p>
     </div>
   </div>
-
   <div class="not-grid">
     <div class="not-card">
       <div class="not-label is-not">✕ &nbsp;MOVE is NOT</div>
@@ -1051,87 +993,88 @@
       <div class="section-tagline">Plays, standards, and what the Change Champion owns at each stage</div>
     </div>
   </div>
-
-  <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab(this, 'tab-m')">M — Meaning</button>
-    <button class="tab-btn" onclick="switchTab(this, 'tab-o')">O — Ownership</button>
-    <button class="tab-btn" onclick="switchTab(this, 'tab-v')">V — Velocity</button>
-    <button class="tab-btn" onclick="switchTab(this, 'tab-e')">E — Establishment</button>
+  <div class="tabs-wrapper">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'tab-m')">M — Meaning</button>
+      <button class="tab-btn" onclick="switchTab(this,'tab-o')">O — Ownership</button>
+      <button class="tab-btn" onclick="switchTab(this,'tab-v')">V — Velocity</button>
+      <button class="tab-btn" onclick="switchTab(this,'tab-e')">E — Establishment</button>
+    </div>
   </div>
 
   <div id="tab-m" class="tab-panel active">
-    <div class="section-header" style="margin-bottom:24px;">
+    <div class="section-header" style="margin-bottom:16px;">
       <div class="section-letter-badge bg-m">M</div>
       <div class="section-header-text">
         <h2 style="color:var(--m-color)">Meaning</h2>
         <div class="section-tagline">What Is Happening — owned by the Change Champion</div>
       </div>
     </div>
-    <div class="callout" style="margin-bottom:24px;">
+    <div class="callout" style="margin-bottom:16px;">
       <div class="callout-title">The Standard</div>
-      <p>Write <strong>all three components</strong>. All of them. Not just the first one. <strong>What is changing. What it will cost (loss). What are the possibilities.</strong> The play is not complete until all three are defined.</p>
+      <p>Write <strong>all three components</strong>. All of them. Not just the first one. <strong>What is changing. What it will cost (loss). What are the possibilities.</strong></p>
     </div>
     <div class="plays-list">
-      <div class="play-item"><div class="play-num bg-m">1</div><div><h4>Meaning Construction / Alignment</h4><p>The Change Champion defines what needs to change, an understanding of what will be lost and who will pay the cost, and the perceived benefits. The play is not complete until all three components are defined. This must also be accompanied by defining Establishment — what will be measured and how to ensure the change occurred.</p></div></div>
-      <div class="play-item"><div class="play-num bg-m">2</div><div><h4>The Loss Investigation Loop</h4><p>Before any further step, consult at least two individuals who will "pay the cost." Name them, then capture the additional losses they surface so they can be folded into the Meaning without changing its direction. Silence on a changed fact is spin.</p></div></div>
-      <div class="play-item"><div class="play-num bg-m">3</div><div><h4>Meaning Empathetic Evaluation</h4><p>Step into the paying individual's perspective. Dissect the three-part Meaning at each level — their loss, their gains, the impact on daily work. This is an empathetic exercise, not a checkbox.</p></div></div>
-      <div class="play-item"><div class="play-num bg-m">4</div><div><h4>Evolving Meaning</h4><p>Accept that facts may require Meaning to be updated. Log what changed, when, and how you communicated it explicitly. All stakeholders align — silence on a changed fact is not acceptable.</p></div></div>
+      <div class="play-item"><div class="play-num bg-m">1</div><div><h4>Meaning Construction / Alignment</h4><p>The Change Champion defines what needs to change, what will be lost and who will pay the cost, and the perceived benefits. Not complete until all three components are defined — alongside Establishment standards.</p></div></div>
+      <div class="play-item"><div class="play-num bg-m">2</div><div><h4>The Loss Investigation Loop</h4><p>Before any further step, consult at least two individuals who will "pay the cost." Name them, capture the losses they surface, and fold those into Meaning without changing its direction.</p></div></div>
+      <div class="play-item"><div class="play-num bg-m">3</div><div><h4>Meaning Empathetic Evaluation</h4><p>Step into the paying individual's perspective at each level. Their loss, their gains, the impact on daily work. This is an empathetic exercise, not a checkbox.</p></div></div>
+      <div class="play-item"><div class="play-num bg-m">4</div><div><h4>Evolving Meaning</h4><p>Accept that facts may require Meaning to be updated. Log what changed, when, and how you communicated it. Silence on a changed fact is spin.</p></div></div>
     </div>
   </div>
 
   <div id="tab-o" class="tab-panel">
-    <div class="section-header" style="margin-bottom:24px;">
+    <div class="section-header" style="margin-bottom:16px;">
       <div class="section-letter-badge bg-o">O</div>
       <div class="section-header-text">
         <h2 style="color:var(--o-color)">Ownership</h2>
         <div class="section-tagline">Who Will Make It Happen — owned by the Change Champion</div>
       </div>
     </div>
-    <div class="callout" style="margin-bottom:24px;">
+    <div class="callout" style="margin-bottom:16px;">
       <div class="callout-title">The Standard</div>
-      <p>Identify who is responsible for turning Meaning into reality. <strong>Ownership is altitude-based — not a RACI.</strong> Every level has a different job. Selective translation rather than holistic adoption is failure.</p>
+      <p><strong>Ownership is altitude-based — not a RACI.</strong> Every level has a different job. Selective translation rather than holistic adoption is failure.</p>
     </div>
     <div class="plays-list">
-      <div class="play-item"><div class="play-num bg-o">1</div><div><h4>Ownership Assignment</h4><p>The Change Champion and key stakeholders identify who will be responsible for messaging, tasks, and results. These will differ with each change and at various levels of the organization.</p></div></div>
-      <div class="play-item"><div class="play-num bg-o">2</div><div><h4>Ownership Loop</h4><p>Before any further step, individuals who will own facets of the change are notified and given an opportunity to provide feedback before Velocity is determined. In instances of disconnect or refusal, Meaning is re-evaluated. If an owner cannot fulfill assigned responsibilities, a new owner is selected.</p></div></div>
+      <div class="play-item"><div class="play-num bg-o">1</div><div><h4>Ownership Assignment</h4><p>The Change Champion and key stakeholders identify who is responsible for messaging, tasks, and results at each level. These differ with every change.</p></div></div>
+      <div class="play-item"><div class="play-num bg-o">2</div><div><h4>Ownership Loop</h4><p>Individuals who own facets of the change are notified and given an opportunity to provide feedback before Velocity is determined. Disconnect or refusal triggers a re-evaluation of Meaning.</p></div></div>
     </div>
   </div>
 
   <div id="tab-v" class="tab-panel">
-    <div class="section-header" style="margin-bottom:24px;">
+    <div class="section-header" style="margin-bottom:16px;">
       <div class="section-letter-badge bg-v">V</div>
       <div class="section-header-text">
         <h2 style="color:var(--v-color)">Velocity</h2>
         <div class="section-tagline">How Will It Happen — owned by the Change Champion</div>
       </div>
     </div>
-    <div class="callout" style="margin-bottom:24px;">
+    <div class="callout" style="margin-bottom:16px;">
       <div class="callout-title">The Standard</div>
-      <p>Work with Owners of Meaning to ensure all tasks and results have <strong>clear dates, benchmarks, and milestones</strong>. Velocity is the implementation phase — cascading through owners to ultimate end users. <strong>The real work is coaching, obstacle removal, resistance diagnosis, and making trade-offs clear.</strong></p>
+      <p>Clear dates, benchmarks, and milestones. <strong>The real work is coaching, obstacle removal, resistance diagnosis, and making trade-offs visible.</strong></p>
     </div>
     <div class="plays-list">
-      <div class="play-item"><div class="play-num bg-v">1</div><div><h4>Executing the Tasks to Adopt the Change</h4><p>The Change Champion and owners define timelines with clear milestones (Progress Check-ins) and benchmarks (Standards Check-ins). Owners complete their items at the agreed standards, including communication of Meaning, training for new behaviors, and assessments of adoption.</p></div></div>
-      <div class="play-item"><div class="play-num bg-v">2</div><div><h4>Development Needs Assessment</h4><p>If a development need is identified during Velocity, owners are responsible for escalating to the appropriate resource. Development needs are incorporated and addressed in parallel — Velocity does not pause.</p></div></div>
-      <div class="play-item"><div class="play-num bg-v">3</div><div><h4>Resistance Recognition and Response</h4><p>Resistance is diagnostic data. The Change Champion identifies patterns, traces resistance to its source — Meaning misalignment, loss not acknowledged, ownership gap — and responds with targeted intervention.</p></div></div>
+      <div class="play-item"><div class="play-num bg-v">1</div><div><h4>Executing the Tasks to Adopt the Change</h4><p>Owners define timelines with clear milestones (Progress Check-ins) and benchmarks (Standards Check-ins). They complete their items at the agreed standards, including communication of Meaning and training for new behaviors.</p></div></div>
+      <div class="play-item"><div class="play-num bg-v">2</div><div><h4>Development Needs Assessment</h4><p>Development needs are incorporated in parallel — Velocity does not pause for them.</p></div></div>
+      <div class="play-item"><div class="play-num bg-v">3</div><div><h4>Resistance Recognition and Response</h4><p>Resistance is diagnostic data. The CC traces it to its source — Meaning misalignment, loss not acknowledged, ownership gap — and responds with targeted intervention.</p></div></div>
     </div>
   </div>
 
   <div id="tab-e" class="tab-panel">
-    <div class="section-header" style="margin-bottom:24px;">
+    <div class="section-header" style="margin-bottom:16px;">
       <div class="section-letter-badge bg-e">E</div>
       <div class="section-header-text">
         <h2 style="color:var(--e-color)">Establishment</h2>
         <div class="section-tagline">How We Know It Happened — owned by the Change Champion</div>
       </div>
     </div>
-    <div class="callout" style="margin-bottom:24px;">
+    <div class="callout" style="margin-bottom:16px;">
       <div class="callout-title">The Standard</div>
-      <p>The change has taken place and is the new normal. <strong>Before launch, know what metric changes, what document changes, what performance or recognition mechanism changes, and what recurring agenda item keeps the change alive.</strong></p>
+      <p><strong>Before launch: know what metric changes, what document changes, what performance mechanism changes, and what recurring agenda item keeps the change alive.</strong></p>
     </div>
     <div class="plays-list">
-      <div class="play-item"><div class="play-num bg-e">1</div><div><h4>Audit Against Established Standards</h4><p>Owners conduct an audit of their results and document current status in comparison to the goals and standards decided during initial change discussions.</p></div></div>
-      <div class="play-item"><div class="play-num bg-e">2</div><div><h4>60-Day Establishment Audit</h4><p>A structured review of every system that still measures, encourages, or rewards the old behavior. Systems that reinforce the past must be identified and updated before Establishment is declared complete.</p></div></div>
-      <div class="play-item"><div class="play-num bg-e">3</div><div><h4>Internal Language Updated at 90 Days</h4><p>Scan of official documents, templates, job descriptions, onboarding materials, and recurring meetings. New employees have no awareness of the prior reality.</p></div></div>
+      <div class="play-item"><div class="play-num bg-e">1</div><div><h4>Audit Against Established Standards</h4><p>Owners document current status in comparison to the goals set during initial change discussions.</p></div></div>
+      <div class="play-item"><div class="play-num bg-e">2</div><div><h4>60-Day Establishment Audit</h4><p>A structured review of every system that still measures, encourages, or rewards the old behavior.</p></div></div>
+      <div class="play-item"><div class="play-num bg-e">3</div><div><h4>Internal Language Updated at 90 Days</h4><p>Scan of documents, templates, job descriptions, onboarding, and recurring meetings. New employees have no awareness of the prior reality.</p></div></div>
     </div>
   </div>
 </div>
@@ -1148,50 +1091,35 @@
       <div class="section-tagline">Four decisions before cascading</div>
     </div>
   </div>
-
   <div class="gates-intro">
-    These are go/no-go gates. <strong>A Change Champion who cascades without meeting these standards is not behind on preparation — they are cascading an incomplete change.</strong> Check each gate before moving forward.
+    These are go/no-go gates. <strong>A Change Champion who cascades without meeting these standards is not behind on preparation — they are cascading an incomplete change.</strong> Tap each gate to check it off.
   </div>
-
   <div class="gates-grid">
     <div class="gate-card" id="gate1" onclick="toggleGate('gate1')">
-      <div class="gate-top">
-        <div class="gate-num">1</div>
-        <div class="gate-checkbox">✓</div>
-      </div>
+      <div class="gate-top"><div class="gate-num">1</div><div class="gate-checkbox">✓</div></div>
       <h4>Have we defined MEANING?</h4>
       <div class="standard-label">Standard</div>
-      <p>The three components — What is Changing, What will be Lost, and What are the Possibilities — are clear. Readers will know what problem the change is intended to solve.</p>
+      <p>All three components — What is Changing, What will be Lost, and What are the Possibilities — are clear. Readers will know what problem the change is intended to solve.</p>
     </div>
     <div class="gate-card" id="gate2" onclick="toggleGate('gate2')">
-      <div class="gate-top">
-        <div class="gate-num">2</div>
-        <div class="gate-checkbox">✓</div>
-      </div>
+      <div class="gate-top"><div class="gate-num">2</div><div class="gate-checkbox">✓</div></div>
       <h4>Have we enlisted OWNERSHIP?</h4>
       <div class="standard-label">Standard</div>
-      <p>All aspects of the change have defined owners who have been enlisted, accepted their responsibilities, and are prepared to execute on necessary actions.</p>
+      <p>All aspects of the change have defined owners who have been enlisted, accepted their responsibilities, and are prepared to execute.</p>
     </div>
     <div class="gate-card" id="gate3" onclick="toggleGate('gate3')">
-      <div class="gate-top">
-        <div class="gate-num">3</div>
-        <div class="gate-checkbox">✓</div>
-      </div>
+      <div class="gate-top"><div class="gate-num">3</div><div class="gate-checkbox">✓</div></div>
       <h4>Have we defined VELOCITY?</h4>
       <div class="standard-label">Standard</div>
-      <p>A clear roadmap exists with defined milestones, benchmarks, a communication plan, and owned execution paths. The path to adoption is documented and visible to all owners.</p>
+      <p>A clear roadmap exists with defined milestones, benchmarks, a communication plan, and owned execution paths visible to all owners.</p>
     </div>
     <div class="gate-card" id="gate4" onclick="toggleGate('gate4')">
-      <div class="gate-top">
-        <div class="gate-num">4</div>
-        <div class="gate-checkbox">✓</div>
-      </div>
+      <div class="gate-top"><div class="gate-num">4</div><div class="gate-checkbox">✓</div></div>
       <h4>Have we defined ESTABLISHMENT?</h4>
       <div class="standard-label">Standard</div>
-      <p>The locking mechanisms are identified: which metric changes, which document changes, which performance mechanism changes, and what recurring agenda item keeps the change alive.</p>
+      <p>The locking mechanisms are identified: which metric changes, which document changes, which performance mechanism changes, and what agenda item keeps the change alive.</p>
     </div>
   </div>
-
   <div class="gate-status" id="gateStatus">
     <div class="gate-status-dot"></div>
     <div class="gate-progress"><div class="gate-progress-fill" id="gateProgressFill"></div></div>
@@ -1202,115 +1130,113 @@
 
 <div class="section-divider"></div>
 
-<!-- ALTITUDE CASCADE -->
+<!-- ALTITUDE -->
 <div id="altitude">
 <div class="section">
   <div class="section-header">
     <div class="section-header-text">
       <h2>Altitude Architecture</h2>
-      <div class="section-tagline">Enterprise change requires all levels. No altitude can do another's work — and none of the work disappears when it is skipped. It surfaces later, at a higher cost.</div>
+      <div class="section-tagline">No altitude can do another's work — and none of the work disappears when it is skipped. It surfaces later, at a higher cost.</div>
     </div>
   </div>
-
   <div class="altitude-section">
 
-    <div class="altitude-tier">
+    <div class="altitude-tier tier-elt">
       <div class="altitude-left">
         <div class="altitude-label">ELT</div>
         <div class="altitude-connector">
-          <div class="altitude-line"></div>
-          <div class="altitude-dot bg-m"></div>
+          <div class="altitude-h-line"></div>
+          <div class="altitude-v-line"></div>
         </div>
       </div>
+      <div class="altitude-dot bg-m" style="top:22px;"></div>
       <div class="altitude-card">
-        <div class="altitude-card-header">
-          <div class="altitude-role">Executive Leadership Team</div>
-        </div>
-        <div class="altitude-owns">Construct Meaning. Determine Ownership. Define Velocity. Install Establishment measures. The change begins and ends here.</div>
+        <div class="altitude-card-role-mobile">ELT</div>
+        <div class="altitude-role">Executive Leadership Team</div>
+        <div class="altitude-owns">Construct Meaning. Determine Ownership. Define Velocity. Install Establishment measures. The change begins and is accountable here.</div>
         <div class="altitude-failure">Cascading a change without all three Meaning components defined.</div>
       </div>
     </div>
 
-    <div class="altitude-tier">
+    <div class="altitude-tier tier-sr">
       <div class="altitude-left">
         <div class="altitude-label">Senior Leadership</div>
         <div class="altitude-connector">
-          <div class="altitude-line"></div>
-          <div class="altitude-dot bg-o"></div>
+          <div class="altitude-h-line"></div>
+          <div class="altitude-v-line"></div>
         </div>
       </div>
+      <div class="altitude-dot bg-o" style="top:22px;"></div>
       <div class="altitude-card">
-        <div class="altitude-card-header">
-          <div class="altitude-role">Senior Leadership (Org Oversight)</div>
-        </div>
-        <div class="altitude-owns">Understand and amplify Meaning — their belief is the precondition for Brand President belief. Co-Own both Velocity and Establishment.</div>
-        <div class="altitude-failure">Selective translation rather than holistic adoption. Forwarding the message without translating it to their context.</div>
+        <div class="altitude-card-role-mobile">Senior Leadership</div>
+        <div class="altitude-role">Senior Leadership (Org Oversight)</div>
+        <div class="altitude-owns">Understand and amplify Meaning — their belief is the precondition for Brand President belief. Co-Own Velocity and Establishment.</div>
+        <div class="altitude-failure">Selective translation rather than holistic adoption. Forwarding the message without translating it to their own context.</div>
       </div>
     </div>
 
-    <div class="altitude-tier">
+    <div class="altitude-tier tier-bsc">
       <div class="altitude-left">
         <div class="altitude-label">Brand Support Center</div>
         <div class="altitude-connector">
-          <div class="altitude-line"></div>
-          <div class="altitude-dot bg-o"></div>
+          <div class="altitude-h-line"></div>
+          <div class="altitude-v-line"></div>
         </div>
       </div>
+      <div class="altitude-dot bg-o" style="top:22px;"></div>
       <div class="altitude-card">
-        <div class="altitude-card-header">
-          <div class="altitude-role">Brand Support Center</div>
-        </div>
+        <div class="altitude-card-role-mobile">Brand Support Center</div>
+        <div class="altitude-role">Brand Support Center</div>
         <div class="altitude-owns">Simultaneously Owners and Subjects of change. Model Meaning personally and execute Velocity — they are giving up or adding function. BSC is not exempt.</div>
         <div class="altitude-failure">Treating change as something that happens to others, not to BSC itself.</div>
       </div>
     </div>
 
-    <div class="altitude-tier">
+    <div class="altitude-tier tier-rvp">
       <div class="altitude-left">
         <div class="altitude-label">Regional VP</div>
         <div class="altitude-connector">
-          <div class="altitude-line"></div>
-          <div class="altitude-dot bg-v"></div>
+          <div class="altitude-h-line"></div>
+          <div class="altitude-v-line"></div>
         </div>
       </div>
+      <div class="altitude-dot bg-v" style="top:22px;"></div>
       <div class="altitude-card">
-        <div class="altitude-card-header">
-          <div class="altitude-role">Regional Vice Presidents</div>
-        </div>
+        <div class="altitude-card-role-mobile">Regional VP</div>
+        <div class="altitude-role">Regional Vice Presidents</div>
         <div class="altitude-owns">Translate Meaning into regional context. Own Velocity within their geography. Surface resistance as diagnostic data up the chain.</div>
         <div class="altitude-failure">Delegating Meaning translation entirely to Brand Presidents without providing regional context.</div>
       </div>
     </div>
 
-    <div class="altitude-tier">
+    <div class="altitude-tier tier-bp">
       <div class="altitude-left">
         <div class="altitude-label">Brand Presidents</div>
         <div class="altitude-connector">
-          <div class="altitude-line"></div>
-          <div class="altitude-dot bg-v"></div>
+          <div class="altitude-h-line"></div>
+          <div class="altitude-v-line"></div>
         </div>
       </div>
+      <div class="altitude-dot bg-v" style="top:22px;"></div>
       <div class="altitude-card">
-        <div class="altitude-card-header">
-          <div class="altitude-role">Brand Presidents</div>
-        </div>
+        <div class="altitude-card-role-mobile">Brand Presidents</div>
+        <div class="altitude-role">Brand Presidents</div>
         <div class="altitude-owns">Translate Meaning into brand-specific context. Own Establishment at the brand level. Define what the change means for the frontline in their brand.</div>
         <div class="altitude-failure">Compliance signaling without genuine adoption. Completing the Roadmap without internalizing it.</div>
       </div>
     </div>
 
-    <div class="altitude-tier">
+    <div class="altitude-tier tier-front">
       <div class="altitude-left">
         <div class="altitude-label">Frontline</div>
         <div class="altitude-connector">
-          <div class="altitude-line"></div>
-          <div class="altitude-dot bg-e"></div>
+          <div class="altitude-h-line"></div>
         </div>
       </div>
+      <div class="altitude-dot bg-e" style="top:22px;"></div>
       <div class="altitude-card">
-        <div class="altitude-card-header">
-          <div class="altitude-role">Frontline Leaders &amp; Teams</div>
-        </div>
+        <div class="altitude-card-role-mobile">Frontline</div>
+        <div class="altitude-role">Frontline Leaders &amp; Teams</div>
         <div class="altitude-owns">Adopt the new behavior. Provide honest feedback on what is and isn't working. Are entitled to understand the Why — not just the What.</div>
         <div class="altitude-failure">Being asked to change behavior without being given Meaning — producing compliance, not commitment.</div>
       </div>
@@ -1332,8 +1258,8 @@
     </div>
   </div>
 
-  <!-- Progress Bar -->
-  <div class="roadmap-progress" id="roadmapProgress">
+  <!-- Progress stepper -->
+  <div class="roadmap-progress">
     <div class="progress-step active" id="pstep-m" onclick="goToPanel('m')">
       <div class="progress-step-letter bg-m">M</div>
       <div class="progress-step-info">
@@ -1364,24 +1290,24 @@
     </div>
   </div>
 
-  <!-- Header fields -->
   <div class="roadmap-form">
-    <div style="padding:20px 24px; border-bottom:1px solid var(--gray-200); display:flex; gap:12px; flex-wrap:wrap;">
-      <div class="form-field" style="flex:1;min-width:180px;">
+    <!-- Header row -->
+    <div style="padding:16px 18px;border-bottom:1px solid var(--gray-200);display:flex;gap:12px;flex-wrap:wrap;">
+      <div class="form-field" style="flex:1;min-width:160px;">
         <label>Change / Project Name</label>
-        <input type="text" placeholder="e.g., MOVE Framework Rollout">
+        <input type="text" placeholder="e.g., MOVE Framework Rollout" autocomplete="off">
       </div>
-      <div class="form-field" style="flex:1;min-width:180px;">
+      <div class="form-field" style="flex:1;min-width:140px;">
         <label>Change Champion</label>
-        <input type="text" placeholder="Name">
+        <input type="text" placeholder="Name" autocomplete="off">
       </div>
-      <div class="form-field" style="width:150px;">
+      <div class="form-field" style="min-width:130px;">
         <label>Target Date</label>
-        <input type="text" placeholder="MM/YYYY">
+        <input type="text" placeholder="MM/YYYY" autocomplete="off">
       </div>
     </div>
 
-    <!-- M Panel -->
+    <!-- M -->
     <div class="form-panel active" id="panel-m">
       <div class="form-section-header">
         <div class="form-section-letter bg-m">M</div>
@@ -1389,31 +1315,19 @@
       </div>
       <div class="form-body">
         <div class="form-row">
-          <div class="form-field">
-            <label>What is Changing?</label>
-            <textarea placeholder="Describe what will be different after this change..."></textarea>
-          </div>
-          <div class="form-field">
-            <label>What will be Lost?</label>
-            <textarea placeholder="Name what ends. Who pays the cost. Be explicit."></textarea>
-          </div>
+          <div class="form-field"><label>What is Changing?</label><textarea placeholder="Describe what will be different after this change..."></textarea></div>
+          <div class="form-field"><label>What will be Lost?</label><textarea placeholder="Name what ends. Who pays the cost. Be explicit."></textarea></div>
         </div>
-        <div class="form-field">
-          <label>What are the Possibilities?</label>
-          <textarea placeholder="What becomes available that wasn't before?"></textarea>
-        </div>
-        <div class="form-field">
-          <label>Meaning Summary (3 sentences)</label>
-          <textarea placeholder="Condense the above into 3 succinct sentences..."></textarea>
-        </div>
+        <div class="form-field"><label>What are the Possibilities?</label><textarea placeholder="What becomes available that wasn't before?"></textarea></div>
+        <div class="form-field"><label>Meaning Summary (3 sentences)</label><textarea placeholder="Condense the above into 3 succinct sentences..."></textarea></div>
       </div>
       <div class="form-actions">
-        <button class="btn-primary" onclick="markDone('m'); goToPanel('o')">Mark Complete &amp; Next: Ownership →</button>
+        <button class="btn-primary" onclick="markDone('m');goToPanel('o')">Mark Complete &amp; Next: Ownership →</button>
         <span class="form-note">Wireframe — data is not saved between sessions</span>
       </div>
     </div>
 
-    <!-- O Panel -->
+    <!-- O -->
     <div class="form-panel" id="panel-o">
       <div class="form-section-header">
         <div class="form-section-letter bg-o">O</div>
@@ -1432,18 +1346,15 @@
           <div class="form-field"><label>Brand Presidents</label><input type="text" placeholder="Primary deliverable"></div>
           <div class="form-field"><label>Frontline</label><input type="text" placeholder="Primary deliverable"></div>
         </div>
-        <div class="form-field">
-          <label>Ownership Summary (3 sentences)</label>
-          <textarea placeholder="Condense the above into 3 succinct sentences..."></textarea>
-        </div>
+        <div class="form-field"><label>Ownership Summary (3 sentences)</label><textarea placeholder="Condense the above into 3 succinct sentences..."></textarea></div>
       </div>
       <div class="form-actions">
         <button class="btn-secondary" onclick="goToPanel('m')">← Back</button>
-        <button class="btn-primary" onclick="markDone('o'); goToPanel('v')">Mark Complete &amp; Next: Velocity →</button>
+        <button class="btn-primary" onclick="markDone('o');goToPanel('v')">Mark Complete &amp; Next: Velocity →</button>
       </div>
     </div>
 
-    <!-- V Panel -->
+    <!-- V -->
     <div class="form-panel" id="panel-v">
       <div class="form-section-header">
         <div class="form-section-letter bg-v">V</div>
@@ -1452,24 +1363,21 @@
       <div class="form-body">
         <div class="form-row">
           <div class="form-field"><label>Timeframe for Change</label><input type="text" placeholder="e.g., Q3 2026 — 90 days"></div>
-          <div class="form-field"><label>Behavioral Goal(s) of Change Adoption</label><input type="text" placeholder="What will people do differently?"></div>
+          <div class="form-field"><label>Behavioral Goal(s)</label><input type="text" placeholder="What will people do differently?"></div>
         </div>
         <div class="form-row">
           <div class="form-field"><label>Critical Milestones (Time-Bound)</label><textarea placeholder="Milestone 1: [date]&#10;Milestone 2: [date]"></textarea></div>
           <div class="form-field"><label>Critical Benchmarks (Standards-Bound)</label><textarea placeholder="Benchmark 1: [standard]&#10;Benchmark 2: [standard]"></textarea></div>
         </div>
-        <div class="form-field">
-          <label>Velocity Summary (3 sentences)</label>
-          <textarea placeholder="Condense the above into 3 succinct sentences..."></textarea>
-        </div>
+        <div class="form-field"><label>Velocity Summary (3 sentences)</label><textarea placeholder="Condense the above into 3 succinct sentences..."></textarea></div>
       </div>
       <div class="form-actions">
         <button class="btn-secondary" onclick="goToPanel('o')">← Back</button>
-        <button class="btn-primary" onclick="markDone('v'); goToPanel('e')">Mark Complete &amp; Next: Establishment →</button>
+        <button class="btn-primary" onclick="markDone('v');goToPanel('e')">Mark Complete &amp; Next: Establishment →</button>
       </div>
     </div>
 
-    <!-- E Panel -->
+    <!-- E -->
     <div class="form-panel" id="panel-e">
       <div class="form-section-header">
         <div class="form-section-letter bg-e">E</div>
@@ -1480,22 +1388,15 @@
           <div class="form-field"><label>Expected Behaviors After Change</label><textarea placeholder="What does 'done' look like behaviorally?"></textarea></div>
           <div class="form-field"><label>Data Points to Audit</label><textarea placeholder="Which metrics confirm the change has taken hold?"></textarea></div>
         </div>
-        <div class="form-field">
-          <label>Documents and Systems to Update (Locking Mechanisms)</label>
-          <textarea placeholder="Templates, job descriptions, scorecards, recurring agenda items, onboarding materials..."></textarea>
-        </div>
-        <div class="form-field">
-          <label>Establishment Summary (3 sentences)</label>
-          <textarea placeholder="Condense the above into 3 succinct sentences..."></textarea>
-        </div>
+        <div class="form-field"><label>Documents and Systems to Update</label><textarea placeholder="Templates, job descriptions, scorecards, recurring meetings, onboarding..."></textarea></div>
+        <div class="form-field"><label>Establishment Summary (3 sentences)</label><textarea placeholder="Condense the above into 3 succinct sentences..."></textarea></div>
       </div>
       <div class="form-actions">
         <button class="btn-secondary" onclick="goToPanel('v')">← Back</button>
-        <button class="btn-primary" onclick="markDone('e'); alert('Roadmap complete. In the full build, this would save and route your roadmap for review and generate an AI summary.')">Finalize Roadmap ✓</button>
-        <button class="btn-secondary" onclick="alert('In the full build, this would call an AI to synthesize all roadmap fields into a clear three-sentence change summary for you to review.')">Generate AI Summary</button>
+        <button class="btn-primary" onclick="markDone('e');alert('Roadmap complete. In the full build, this saves and routes your roadmap for review.')">Finalize Roadmap ✓</button>
+        <button class="btn-secondary" onclick="alert('In the full build, an AI synthesizes all roadmap fields into a three-sentence change summary for your review.')">Generate AI Summary</button>
       </div>
     </div>
-
   </div>
 </div>
 </div>
@@ -1511,10 +1412,9 @@
       <div class="section-tagline">The disciplined work behind the Meaning standard — for Change Champions</div>
     </div>
   </div>
-
-  <div class="callout" style="margin-bottom:24px;">
+  <div class="callout" style="margin-bottom:20px;">
     <div class="callout-title">Purpose</div>
-    <p>This worksheet structures the Change Champion's thinking to ensure each Meaning standard is well-defined before seeking approval or advancing to Ownership. <strong>Complete all four plays. The play is not complete until the change, the loss, and the possibilities are all captured.</strong></p>
+    <p>Complete all four plays. The play is not complete until <strong>the change, the loss, and the possibilities are all captured.</strong></p>
   </div>
 
   <div class="worksheet-container">
@@ -1526,14 +1426,14 @@
       </div>
       <div class="ws-play-body">
         <p class="ws-play-desc">Define what needs to change, what will be lost and who pays the cost, and the perceived benefits. Not complete until all three are captured.</p>
-        <div style="margin-bottom:8px; font-size:0.75rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--gray-400);">What are we solving for?</div>
+        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--gray-400);margin-bottom:6px;">What are we solving for?</div>
         <div class="form-field"><textarea placeholder="Define the problem or opportunity this change addresses..."></textarea></div>
         <div class="meaning-grid">
           <div class="meaning-col"><label>What is changing?</label><textarea placeholder="The specific behavior, process, or standard that will be different..."></textarea></div>
           <div class="meaning-col"><label>What will be lost?</label><textarea placeholder="Name it explicitly. Who pays the cost? What ends?"></textarea></div>
           <div class="meaning-col"><label>What are the possibilities?</label><textarea placeholder="What becomes available? What does this make possible?"></textarea></div>
         </div>
-        <div style="margin-bottom:8px; font-size:0.75rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--gray-400);">Establishment (define before advancing)</div>
+        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--gray-400);margin-bottom:6px;">Establishment — define before advancing</div>
         <div class="form-row">
           <div class="form-field"><label>Standard to be put in place</label><textarea placeholder="The new expected behavior or outcome..."></textarea></div>
           <div class="form-field"><label>KPI / Expectation</label><textarea placeholder="How will you measure it?"></textarea></div>
@@ -1549,15 +1449,17 @@
         <span class="ws-chevron">▼</span>
       </div>
       <div class="ws-play-body">
-        <p class="ws-play-desc">Before any further step, consult at least two individuals who will "pay the cost." Name them, then capture the additional losses they surface.</p>
-        <table class="loss-table">
-          <thead><tr><th style="width:28%">Role</th><th style="width:28%">Name</th><th>Loss Notes</th></tr></thead>
-          <tbody>
-            <tr><td><input type="text" placeholder="Role / Level"></td><td><input type="text" placeholder="Name"></td><td><input type="text" placeholder="What they told you..."></td></tr>
-            <tr><td><input type="text" placeholder="Role / Level"></td><td><input type="text" placeholder="Name"></td><td><input type="text" placeholder="What they told you..."></td></tr>
-            <tr><td><input type="text" placeholder="Role / Level"></td><td><input type="text" placeholder="Name"></td><td><input type="text" placeholder="What they told you..."></td></tr>
-          </tbody>
-        </table>
+        <p class="ws-play-desc">Before any further step, consult at least two individuals who will "pay the cost." Name them, capture the losses they surface.</p>
+        <div class="table-scroll">
+          <table class="loss-table">
+            <thead><tr><th style="width:28%">Role</th><th style="width:28%">Name</th><th>Loss Notes</th></tr></thead>
+            <tbody>
+              <tr><td><input type="text" placeholder="Role / Level"></td><td><input type="text" placeholder="Name"></td><td><input type="text" placeholder="What they told you..."></td></tr>
+              <tr><td><input type="text" placeholder="Role / Level"></td><td><input type="text" placeholder="Name"></td><td><input type="text" placeholder="What they told you..."></td></tr>
+              <tr><td><input type="text" placeholder="Role / Level"></td><td><input type="text" placeholder="Name"></td><td><input type="text" placeholder="What they told you..."></td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -1569,18 +1471,18 @@
       </div>
       <div class="ws-play-body">
         <p class="ws-play-desc">Step into the paying individual's perspective at each level. This is an empathetic exercise, not a checkbox.</p>
-        <div style="overflow-x:auto;">
-        <table class="loss-table" style="min-width:500px;">
-          <thead><tr><th style="width:16%">Level</th><th>What is changing for them?</th><th>What will they lose?</th><th>What are their gains?</th></tr></thead>
-          <tbody>
-            <tr><td style="font-weight:600;color:var(--navy);font-size:0.8rem;">ELT</td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td></tr>
-            <tr><td style="font-weight:600;color:var(--navy);font-size:0.8rem;">Sr. Leaders</td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td></tr>
-            <tr><td style="font-weight:600;color:var(--navy);font-size:0.8rem;">BSC</td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td></tr>
-            <tr><td style="font-weight:600;color:var(--navy);font-size:0.8rem;">RVPs</td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td></tr>
-            <tr><td style="font-weight:600;color:var(--navy);font-size:0.8rem;">Brand Presidents</td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td></tr>
-            <tr><td style="font-weight:600;color:var(--navy);font-size:0.8rem;">Frontline</td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td></tr>
-          </tbody>
-        </table>
+        <div class="table-scroll">
+          <table class="loss-table" style="min-width:520px;">
+            <thead><tr><th style="width:16%">Level</th><th>What is changing for them?</th><th>What will they lose?</th><th>What are their gains?</th></tr></thead>
+            <tbody>
+              <tr><td style="font-weight:600;color:var(--navy);font-size:0.8rem;">ELT</td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td></tr>
+              <tr><td style="font-weight:600;color:var(--navy);font-size:0.8rem;">Sr. Leaders</td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td></tr>
+              <tr><td style="font-weight:600;color:var(--navy);font-size:0.8rem;">BSC</td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td></tr>
+              <tr><td style="font-weight:600;color:var(--navy);font-size:0.8rem;">RVPs</td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td></tr>
+              <tr><td style="font-weight:600;color:var(--navy);font-size:0.8rem;">Brand Presidents</td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td></tr>
+              <tr><td style="font-weight:600;color:var(--navy);font-size:0.8rem;">Frontline</td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td><td><input type="text" placeholder="..."></td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -1592,27 +1494,29 @@
         <span class="ws-chevron">▼</span>
       </div>
       <div class="ws-play-body">
-        <p class="ws-play-desc">Accept that facts may require Meaning to be updated. Log what changed, when, and how you communicated it. Silence on a changed fact is spin.</p>
-        <table class="loss-table">
-          <thead><tr><th style="width:15%">Date</th><th>What changed in the Meaning</th><th style="width:30%">How it was communicated</th></tr></thead>
-          <tbody>
-            <tr><td><input type="text" placeholder="MM/DD/YY"></td><td><input type="text" placeholder="What fact or component changed..."></td><td><input type="text" placeholder="Email / meeting / roadmap update..."></td></tr>
-            <tr><td><input type="text" placeholder="MM/DD/YY"></td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td></tr>
-          </tbody>
-        </table>
+        <p class="ws-play-desc">Log what changed, when, and how you communicated it. Silence on a changed fact is spin.</p>
+        <div class="table-scroll">
+          <table class="loss-table">
+            <thead><tr><th style="width:16%">Date</th><th>What changed in the Meaning</th><th style="width:30%">How it was communicated</th></tr></thead>
+            <tbody>
+              <tr><td><input type="text" placeholder="MM/DD/YY"></td><td><input type="text" placeholder="What fact or component changed..."></td><td><input type="text" placeholder="Email / meeting / update..."></td></tr>
+              <tr><td><input type="text" placeholder="MM/DD/YY"></td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 </div>
 </div>
 
-<!-- FOOTER -->
 <footer>
-  <strong>MOVE — The IHS Change Standard</strong> &nbsp;·&nbsp; Version 1 &nbsp;·&nbsp; Infinity Home Services &nbsp;·&nbsp; Internal Use Only
+  <strong>MOVE — The IHS Change Standard</strong><br>
+  Version 1 &nbsp;·&nbsp; Infinity Home Services &nbsp;·&nbsp; Internal Use Only
 </footer>
 
 <script>
-  // Tab switching
+  // Tabs
   function switchTab(btn, tabId) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -1624,76 +1528,67 @@
   function togglePlay(header) {
     const play = header.parentElement;
     const chevron = header.querySelector('.ws-chevron');
-    const isOpen = play.classList.contains('open');
     play.classList.toggle('open');
-    chevron.textContent = isOpen ? '▼' : '▲';
+    chevron.textContent = play.classList.contains('open') ? '▲' : '▼';
   }
 
   // Mobile nav
   function toggleMobileMenu() {
-    document.getElementById('mobileMenu').classList.toggle('open');
+    const menu = document.getElementById('mobileMenu');
+    const burger = document.getElementById('hamburger');
+    menu.classList.toggle('open');
+    burger.classList.toggle('open');
   }
   function closeMobileMenu() {
     document.getElementById('mobileMenu').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
   }
 
   // Stage gates
-  let checkedGates = new Set();
+  const checkedGates = new Set();
   function toggleGate(id) {
     const card = document.getElementById(id);
-    if (checkedGates.has(id)) {
-      checkedGates.delete(id);
-      card.classList.remove('checked');
-    } else {
-      checkedGates.add(id);
-      card.classList.add('checked');
-    }
+    checkedGates.has(id) ? checkedGates.delete(id) : checkedGates.add(id);
+    card.classList.toggle('checked');
     const count = checkedGates.size;
-    const fill = document.getElementById('gateProgressFill');
-    const statusEl = document.getElementById('gateStatus');
-    const textEl = document.getElementById('gateStatusText');
-    fill.style.width = (count / 4 * 100) + '%';
-    if (count === 4) {
-      statusEl.classList.add('go');
-      textEl.textContent = '✓ All 4 gates cleared — ready to cascade';
-    } else {
-      statusEl.classList.remove('go');
-      textEl.textContent = count + ' of 4 gates cleared — not ready to cascade';
-    }
+    document.getElementById('gateProgressFill').style.width = (count / 4 * 100) + '%';
+    const status = document.getElementById('gateStatus');
+    const text   = document.getElementById('gateStatusText');
+    status.classList.toggle('go', count === 4);
+    text.textContent = count === 4
+      ? '✓ All 4 gates cleared — ready to cascade'
+      : count + ' of 4 gates cleared — not ready to cascade';
   }
 
-  // Roadmap progress
-  const panels = ['m','o','v','e'];
+  // Roadmap stepper
   const done = new Set();
   function goToPanel(id) {
-    panels.forEach(p => {
-      document.getElementById('panel-' + p).classList.remove('active');
-      const step = document.getElementById('pstep-' + p);
-      step.classList.remove('active');
-      if (!done.has(p)) step.classList.remove('done');
+    ['m','o','v','e'].forEach(p => {
+      document.getElementById('panel-'+p).classList.remove('active');
+      const s = document.getElementById('pstep-'+p);
+      s.classList.remove('active');
     });
-    document.getElementById('panel-' + id).classList.add('active');
-    document.getElementById('pstep-' + id).classList.add('active');
+    document.getElementById('panel-'+id).classList.add('active');
+    document.getElementById('pstep-'+id).classList.add('active');
     document.getElementById('roadmap').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
   function markDone(id) {
     done.add(id);
-    const step = document.getElementById('pstep-' + id);
-    step.classList.remove('active');
-    step.classList.add('done');
+    const s = document.getElementById('pstep-'+id);
+    s.classList.remove('active');
+    s.classList.add('done');
   }
 
-  // Active nav on scroll
-  const sections = document.querySelectorAll('[id]');
-  const navLinks = document.querySelectorAll('.nav-link');
+  // Active nav highlight on scroll
   window.addEventListener('scroll', () => {
     let current = '';
-    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
-    navLinks.forEach(a => {
-      a.classList.remove('active');
-      if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+    document.querySelectorAll('div[id]').forEach(s => {
+      if (window.scrollY >= s.offsetTop - 80) current = s.id;
     });
-  });
+    document.querySelectorAll('.nav-link').forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  }, { passive: true });
 </script>
 </body>
 </html>
